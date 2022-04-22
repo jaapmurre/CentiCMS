@@ -2,6 +2,9 @@
 
 Tiny flat-file content-management system in PHP, treating a website as much as possible as a JavaScript app.
 
+
+See live example with documentation at [centicms.com](https://centicms.com/).
+
 ## Features
 
  - Very small footprint: Smallest install is one PHP file (zipped this is only 13 kB)!
