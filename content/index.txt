@@ -6,6 +6,8 @@ Text:
 
 Tiny flat-file content-management system in PHP, treating a website as much as possible as a JavaScript app.
 
+**You can download [CentiCMS on Github](https://github.com/jaapmurre/CentiCMS)**
+
 ## Features
 
  - Very small footprint: Smallest install is one PHP file (zipped this is only 13 kB)!
