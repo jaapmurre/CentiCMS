@@ -1,0 +1,52 @@
+{{> header}}
+
+    <!-- Page Content -->
+    <div class="container">
+
+      <div class="row">
+
+        <div class="col-md-8 pt-4">
+
+          {{> adminheader}}
+          <h3>Local (content) template.txt overrides vendor template.txt</h3>
+
+
+          <h1 class="my-4">{{{page.title}}}</h1>
+
+          <div>
+            <h2>Here will be the dashboard</h2>
+          </div>
+        </div>
+
+        <!-- Sidebar Widgets Column -->
+        <div class="col-md-4">
+
+
+          <div class="card my-4"> <!-- Side Widget -->
+            <h5 class="card-header">Sidebar</h5>
+            <div class="card-body">
+
+              Nothing much here
+
+            </div>
+          </div>
+
+          {{#each page.files}} <!-- Show all images in their own card -->
+            <div class="card my-4">
+              <h5 class="card-header">{{{markdown caption.text}}}</h5>
+              <div class="card-body">
+                <img class="img-thumbnail" src="{{url}}" />
+              </div>
+            </div>
+          {{/each}}
+          
+
+        </div>
+
+      </div>
+      <!-- /.row -->
+
+    </div>
+    <!-- /.container -->
+
+{{> footer}}

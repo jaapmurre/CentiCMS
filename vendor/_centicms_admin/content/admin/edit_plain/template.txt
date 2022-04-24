@@ -1,0 +1,73 @@
+{{> header}}
+
+    <div class="container">
+
+      <div class="row">
+
+        <div class="col-md-8 pt-4 my-4">
+
+          {{#if session.username}} 
+
+            <h3 class="my-4">Edit {{file_in_query.title}}</h3>
+
+            <form id="edit_form" action="{{siteurl}}/vendor/centicms_admin/processfile.php" method="post">
+              <div class="form-row">
+                <div class="form-group col-md-12">
+                    <textarea name="text" id="text" style="width:100%;height:20em;">{{{ file_in_query.rawtext }}}</textarea>
+                </div>
+
+                <div class="form-group col-md-12 invisible">
+                    <input name="fullpath" id="fullpath" type="text" style="width:40em;" value="{{file_in_query.fullpath}}" />
+                </div>
+
+              </div>
+              <button id="edit_form_submit" type="submit" disabled="disabled" class="btn btn-primary">Save</button>
+            </form>
+
+            <script> // Enable the 'Save' button when edits have been made
+              $(document).ready(function() {
+                $('#text').on('change keyup paste',function(){
+                  $('#edit_form_submit').prop('disabled',false);
+                });
+              });
+            </script>
+
+          {{else}}
+            <h5>Please, first <a href="{{siteurl}}/admin/login">log in</a> to access files</h5>
+          {{/if}}
+
+        </div>
+
+        <!-- Sidebar Widgets Column -->
+        <div class="col-md-4">
+
+          <div class="card my-4"> <!-- Side Widget -->
+            <h5 class="card-header">User</h5>
+            <div class="card-body">
+              {{#if session.username}} 
+                <h5> {{ session.username }} </h5>
+                {{> logout_button }}
+              {{else}}
+                <h5><i>Not logged in</i></h5>
+              {{/if}}
+            </div>
+          </div>
+
+          {{#each page.files}} <!-- Show all images in their own card -->
+            <div class="card my-4">
+              <h5 class="card-header">{{{markdown caption.text}}}</h5>
+              <div class="card-body">
+                <img class="img-thumbnail" src="{{url}}" />
+              </div>
+            </div>
+          {{/each}}
+          
+        </div>
+
+      </div>
+      <!-- /.row -->
+
+    </div>
+    <!-- /.container -->
+
+{{> footer}}

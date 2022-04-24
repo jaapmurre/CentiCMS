@@ -1,0 +1,19 @@
+{{> header}}
+
+    <!-- Page Content -->
+    <div class="container">
+      <div class="row">
+        <div class="offset-md-2 col-md-8 pt-4 my-4">
+          <h2 class="my-4">{{{markdown page.title}}}</h2>
+          {{#if session.username}}
+            <h3 class="my-4">{{{markdown (_ 'not_logged_out_message') }}}</h3>
+            <h3>{{> logout_button }}</h3>
+          {{else}}
+            <h3 class="my-4">{{{markdown (_ 'logged_out_message') }}}</h3>
+            <h3><a href='login' class= "btn btn-primary">{{{_ 'login'}}}</a></h3>
+          {{/if}}
+        </div>
+      </div> <!-- row -->
+    </div> <!-- container -->
+
+{{> footer}}

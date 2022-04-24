@@ -1,0 +1,125 @@
+Title: config.txt
+
+----
+
+Text:
+
+This file contains a limited set of key-value pairs that are hard-coded via
+PHP. That means these values are included in the file before it is served to
+the client-side browser. This is an easy mechanism to specify additional style
+sheets, javascript and other aspects you want to use and that were not already
+included.
+
+Use of the config.txt file is optional and may be left out. However, I suggest
+you leave it in and at least fill out the sitename of your site, which will be
+hard-coded in the html file. Though optional here, it is important for
+Google and the others to find and index your site properly:
+
+ - sitename
+
+ - siteurl: http://localhost/centicms
+
+ - remove_from_route: centicms
+
+
+Valid additional (optional) options:
+
+ - languages
+
+   A comma-separated list of languages, e.g.,
+
+       languages: en,nl
+
+   The first language, by convention, is the *default language*. If nothing else is specified, it
+   will be assumed. You may also use more specific identifiers, e.g., 
+
+        languages: en_nz, nl_be
+
+   If you are going to work with dates and times and use the preloaded [Moment.js](http://momentjs.com/) library,
+   you may want to check there, whether a particular language code is supported. If specified with the 'languages'
+   key, the required files will be loaded automatically for Moment.js.
+
+ - theme
+
+     This could be one of the bootswatch themes (see https://bootswatch.com ):
+
+     - default
+     - cerulean
+     - cosmo
+     - cyborg
+     - darkly
+     - flatly
+     - journal
+     - litera
+     - lumen
+     - lux
+     - materia
+     - minty
+     - pulse
+     - sandstone
+     - simplex
+     - sketchy
+     - slate
+     - solar
+     - spacelab
+     - superhero
+     - united
+     - yeti
+
+    Another valid theme option is:
+
+     - shards
+
+    which will use the Shards UI Toolkit to style your site (see https://designrevision.com/downloads/shards ).
+
+ - icons
+
+   Valid values are:
+
+    - fontawesome (default, see https://fontawesome.com )
+    - material (see https://material.io/tools/icons )
+    - none (if you don't want to use fonts and don't want the overhead of an icon font)
+ 
+You can also specify the stylesheets and javascript in full yourself with
+
+ - stylesheet
+ - javascript
+
+The stylesheet value must include all the markup that make it valid, e.g., 
+
+    stylesheet: 
+
+    <link rel='stylesheet' href='full_path_to_my_stylesheet.css'>
+
+You can also enter local styles. Adding several ones is allowed. 
+
+You can directly enter some meta tag info with
+
+ - meta_description
+ - meta_author
+ - meta_keywords (but see warning against its use at https://blog.realmacsoftware.com/which-meta-tags-matter-for-seo-in-2018/ )
+
+You can specify styles in full (you must include the `<style></style>` tags) with
+
+ - style
+
+For example,
+
+    <style>
+        .scream: {
+            color: red; 
+            font-size: 4em;
+        }
+    </style>
+
+and similarly with meta tags, if you want to use meta-tages other than description, author, and keywords:
+
+ - metatags
+
+
+
+ - mathjax: true
+
+ - extra_sitemap_fields: color
+
+ - filetype_math: sav, spv, mat, r

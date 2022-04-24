@@ -1,0 +1,65 @@
+{{> header}}
+
+  <!-- Page Content -->
+  <div class="container">
+
+    <div class="row mb-4">
+
+      <div class="col-md-8">
+        <div>
+          {{{markdown page.text}}}
+
+          <ul class="list-group">
+            {{#each page.children}}
+              {{#if (getquery 'tag') }} <!-- if 'tag' is in URL query, filter on tags -->
+                {{#if (contains (getquery 'tag') tags) }}
+                  {{#if isvisible}}
+                    <li class="list-group-item">
+                        <a class="font-weight-bold" href='{{path}}'>{{title}}</a>
+                    </li>
+                  {{/if}}
+                {{/if}}
+              {{else}} <!-- if 'tag' is not in URL query, show all child pages -->
+                  {{#if isvisible}}
+                  <li class="list-group-item">
+                      <a class="font-weight-bold" href='{{path}}'>{{title}}</a>
+                  </li>
+                  {{/if}}
+              {{/if}}
+            {{/each}}
+          </ul>
+
+        </div>
+      </div>
+
+      <!-- Sidebar Widgets Column -->
+      <div class="col-md-4">
+
+        <!-- Side Widget -->
+        <div class="card my-4">
+          <h5 class="card-header">Show projects by tag</h5>
+          <div class="card-body">
+
+            <a href="{{siteurl}}/projects" title="Tag for projects shown" class="badge badge-secondary">show all</a>
+            <hr />
+
+            {{#each (getsetfrompages page.children 'tags') }}
+              {{#compare this '==' (getquery 'tag') }}
+                <a href="{{../siteurl}}/projects?tag={{this}}" title="Tag for projects shown" class="badge badge-primary">{{this}}</a>
+              {{else}}
+                <a href="{{url}}?tag={{this}}" title="Tag for other projects" class="badge badge-secondary">{{this}}</a>
+              {{/compare}}
+            {{/each}}
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+    <!-- /.row -->
+
+  </div>
+  <!-- /.container -->
+
+{{> footer}}

@@ -1,0 +1,33 @@
+title: Titel
+----
+username: Gebruikersnaam
+----
+password: Wachtwoord
+----
+register: Registeren
+----
+login: Aanmelden
+----
+logout: Afmelden
+----
+user: Gebruiker
+----
+not_logged_in: Niet Aangemeld
+----
+logged_out_message: U bent nu uitgelogd
+----
+not_logged_out_message: U bent nog **niet** uitgelogd
+----
+you_are_already_logged_in: U bent al aangemeld. Wilt u zich <a class='badge badge-primary badge-sm' href='../vendor/centicms_user/logout.php'>Afmelden</a> ?
+----
+username_not_recognized: De gebruikersnaam '{{session.wrong_username}}' wordt niet herkend. Wilt u zich eerst <a class='badge badge-primary badge-sm' href='register'>Registeren</a> ?.
+----
+username_already_taken: Iemand anders is al geregistreerd met gebruikersnaam '{{session.wrong_username}}'
+----
+you_are_registered: U bent met succes geregistreerd als '{{session.username}}' en tevens al aangemeld
+----
+were_logged_out: U was al afgemeld
+----
+are_logged_out: U bent nu afgemeld
+----
+or: of

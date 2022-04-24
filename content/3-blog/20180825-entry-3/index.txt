@@ -1,0 +1,103 @@
+Title: Admin panel fields for index.txt files, how should we add them?
+----
+Date: 25 August 2018
+----
+Text:
+
+The admin panel as implemented today is functional but extremely minimal. Editing fields are done
+exactly as it is as I am doing right now: in a text editor without any checking on correctness
+and without feedback or previews. Also, there is no limiting of values, so I could give a date the
+value 'green', say. Should we give hints to the admin/edit page to remedy this?
+
+### Kirby's solution
+
+Kirby solves this by including PHP files called blueprints (in site/blueprints), which give details on:
+
+ - label
+ - (field) type
+ - width: in form, e.g., 1/2
+ - Help text for the person editing
+
+ Also, we find sometimes:
+
+  - icon
+  - required (true/false)
+
+It also includes similar information for the files' captions (not specified by extension: .jpg vs .pdf).
+
+### Solution options
+
+ 1. We can add field identifiers to each non-obvious field, e.g., *required_b*, or *bool_required*, but this puts additional
+    work on flat-file editors to remember these type codes, also making it much less intuitive.
+
+ 2. We can add a separate file, e.g., fields.txt and childfields.txt where we layout some of the fields' details, like we do with
+    templates to convey, well, the layout of a page. Such fields files are only necessary for pages that will be edited through an
+    admin/edit page. If they are missing, the editor can present simply the plain text view.
+
+### Solution 2: fields.txt
+
+If we select Solution 2, we might start from Kirby's Yaml-like format, e.g., for this page:
+
+    Fields:
+        Title:
+            Label: Title
+            Type: text
+            Help: Keep is short and sweet
+        Date:
+            Label: Date
+            Type: date
+            Width: 1/2
+            Help: The date you completed this blog entry
+        Text:
+            Label: Text
+            Type: markdown
+            Markdown-config:
+                Height: 12em
+            Help: Your blog entry's text
+
+Yaml is not super-tolerant of layout mistakes, but it would work. `Width: 1` is default. Field key names are converted as usual
+(lower-case, hyphens and spaces become underscores). You can add arbitrary config key-value pairs, like here: `Markdown-config`.
+We could also add *date-config* or *text-config* to add specific details. By default, all fields are required.
+
+### i18n of fields.txt
+
+We could have fields.nl.txt to add the nl version, which would be an exact copy except for the translations, mainly of the help
+texts and perhaps the labels. We could also do an override approach, where the default language text is overridden by only the
+specific field aspects deemed necessary to translate. That will increase maintainability a lot. The system would then always first
+read in fields.txt and then fields.nl.txt overriding any fields in the latter file.
+
+Several of the fields will be auto-i18n-ed, like date and time. In other words, it is not necessary to translate these explicitly.
+
+Note that even though fields are translated in, say, Dutch in the edit page, the actual content of the pages may still be English.
+This is all just about admin/edit editor views.
+
+### In-editor specification of fields.txt
+
+When starting to edit the first subpage of a page, choices can be made in the admin/edit page, which are then written to the
+fields.txt page.
+
+### Third-party config files
+
+If we allow fields.txt, we are allowing a third-party app to add a new, to-be-processed-in-PHP, type of file. On the one hand, we should
+reject this. On the other hand, we can argue that we chose to use this vendor's product and that our personal settings belong in the
+content directory and not in the vendor directory where they might be lost in an upgrade.
+
+Then again, the problem was not so much about allowing files, but about when to index them.
+
+
+## Solution 3: Vendor files in general
+
+CentiCMS-Admin is just one vendor plugin. There may be many others and some of these may want to store information as well. We could
+solve this more generally having vendor.txt files (and vendor.nl.txt) etc. in which each vendor may have a section in which to write
+data that directly relates to the page or subpages in which they are located.
+
+An even cleaner approach might be to have files with the naming convention like vendor_centicms_admin.nl.txt that can be found in any
+content directory and potentially also in vendor content directories. In this way, a new vendor plugin may provide info to the admin
+panel how its pages should be edited. One then also has the option of putting the vendor.txt files in content or in vendor content,
+where a shadow site structure can be made; this has the advantage that the original content is not poluted with vendor files.
+
+The vendor file info will be added to a sitemap page as say `vendor.centicms_admin['text'] = markdown`, which would apply to this blog page.
+
+### Naming vendor files
+
+Vendor files are found like template files and we could call them *vendortemplate_centicms_admin* and *childvendortemplate_centicms_admin*.

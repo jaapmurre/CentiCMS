@@ -1,0 +1,42 @@
+{{> header}}
+
+  <div class="container">
+
+    <div class="row">
+      <div class="col-md-8">
+        <div>
+          {{{markdown page.text}}}
+        </div>
+      </div>
+
+      <div class="col-md-4">
+
+        {{> theme_explorer}}
+
+        <!-- Side Widget -->
+        <div class="card my-4">
+          <h5 class="card-header">{{{_ 'content'}}}</h5>
+          <div class="card-body">
+          <ul class="list-group list-group-flush">
+            {{#each page.children}}
+              <li class="list-group-item">
+                {{#if isvisible}}
+                  <a href='{{url}}'>{{title}}</a>
+                {{/if}}
+              </li>
+            {{/each}}
+          </ul>
+
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+    <!-- /.row -->
+
+  </div>
+  <!-- /.container -->
+
+{{> footer}}

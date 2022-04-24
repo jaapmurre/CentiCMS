@@ -1,0 +1,47 @@
+logout_button:
+
+  <!-- We need a whole form here in order to post the language to the PHP script, so it can redirect correctly -->
+  <form id="logout" method="post" action="{{siteurl}}/vendor/centicms_user/logout.php">
+    <input type="hidden" id="language" name="language" value="{{slash_language }}" />
+    <input type="submit" name="submit" class="btn btn-primary" value="{{_ 'logout' }}" />
+  </form>
+
+----
+
+user_navbar_widget:
+
+  <ul id="navigation-user" class="navbar-nav ml-auto text-white">
+    {{#if session.username}} 
+      <li> <span class="pt-1" style="display:inline-block;">{{ session.username }}</span>
+        <form class="pull-right ml-4" id="logout" method="post" action="{{siteurl}}/vendor/centicms_user/logout.php">
+          <input type="hidden" id="language" name="language" value="{{slash_language }}" />
+          <input type="submit" name="submit" class="btn btn-outline-light btn-sm text-white" value="{{_ 'logout' }}" />
+        </form>
+      </li>
+    {{else}}
+      <li>
+        <a class="btn btn-outline-light btn-sm text-white"  href='{{localizedsiteurl}}/login'>{{_ 'login'}}</a>
+      </li>
+    {{/if}}
+  </ul>      
+
+----
+
+user_side_widget:
+
+<div class="card my-4">
+  <h5 class="card-header">{{_ 'user'}}</h5>
+  <div class="card-body">
+    {{#if session.username}} 
+      <h5> {{ session.username }} 
+      <span class="pull-right">{{> logout_button }}</span>
+      </h5>
+    {{else}}
+      <h5>
+        <a class="btn btn-primary"  href='{{localizedsiteurl}}/login'>{{_ 'login'}}</a>
+          {{_ 'or' }}
+        <a class="btn btn-primary"  href='{{localizedsiteurl}}/register'>{{_ 'register'}}</a>
+      </h5>
+    {{/if}}
+  </div>
+</div>

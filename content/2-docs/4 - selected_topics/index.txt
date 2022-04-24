@@ -1,0 +1,14 @@
+Title: Selected topics
+
+-----
+
+Text:
+
+In this section, we highlight some specific topics that may be of interest:
+
+ - [Setting-up and using the admin panel]() (not implemented yet)
+ - [Adding a new file type]()  (not implemented yet)
+ - [Multi-lingual sites]()  (not implemented yet)
+ - [Adding a favicon to your site]({{page.url}}/favicon)
+ - [Writing equations in Markdown with MathJax]({{page.url}}/mathematical_equations)
+ - [Developing new vendor plugins]()  (not implemented yet)

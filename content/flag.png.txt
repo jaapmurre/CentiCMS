@@ -1,0 +1,1 @@
+Text: Captions *and* files can adapt automatically to the language selected

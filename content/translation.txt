@@ -1,0 +1,9 @@
+slogan: CentiCMS: 1% size, incredible power
+----
+dutch: Dutch
+----
+english: English
+----
+content: Content
+----
+home: Home

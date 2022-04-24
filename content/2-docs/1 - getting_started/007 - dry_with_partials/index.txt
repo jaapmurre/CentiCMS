@@ -1,0 +1,138 @@
+Title: DRY with partials
+
+-----
+
+Text:
+
+In the previous step, we defined a new template and a childtemplate, meaning we now have three templates.
+Suppose, we want to change something in the navbar, e.g., going for a light themed navbar? That would
+mean we have to make the same change in three different places. Programmers don't like this; instead
+they prefer to follow the DRY rule. This stands for Don't Repeat Yourself.
+
+### Partials
+
+Handlebars includes a mechamism to pre-define snippets of Handlebars code that can be called from other
+places without copying it. These snippets are called 'partials' in Handlebars. Suppose we had a 'partial'
+called 'hello', which held this code:
+
+    <h2>Hello world!</h2>
+
+Then, we could refer to it with this notation:
+
+    \{{> hello}}
+
+Notice the \{{> }} notation, which is how you call a partial.
+
+In CentiCMS, there is exactly one partials.txt file in the content directory and it must be placed in the root
+of that directory. The partials themselves are entered like the keyword-value pairs in an index.txt file.
+
+Let's do this for the navigation bar and let's also define a footer where we link to the Disclaimer page. We will
+reproduce the partials.txt file here in full:
+
+    header:
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="{{siteurl}}">My Site</a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse"
+                data-target="#navbarCollapse" aria-controls="navbarCollapse"
+                aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+          <ul class="navbar-nav mr-auto">
+            {{#each sitemap.children}}
+              {{#if isvisible}}
+                {{#if iscurrent}}
+                  <li class="nav-item active">
+                    <a class="nav-link" href="{{url}}">{{title}}</a>
+                      <span class="sr-only">(current)</span>
+                  </li>
+                {{else}}
+                  <li class="nav-item">
+                    <a class="nav-link" href="{{url}}">{{title}}</a>
+                  </li>
+                {{/if}}
+              {{/if}}
+            {{/each}}
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+&hyphen;&hyphen;&hyphen;&hyphen;
+
+    footer:
+
+    <footer class="py-5 bg-dark">
+      <div class="container">
+        <div class="m-0 text-center text-white">
+            &copy; 2018 My Site &mdash;
+            <a href="{{siteurl}}/disclaimer">Disclaimer</a>
+        </div>
+      </div>
+    </footer>
+
+We did not need to change any of the orignal header code, but just copied it to the partials.txt file. From there, we can include
+it in any other file (and don't even have to be template files). Note, that the file *must* be called 'partials.txt' and place in
+the root of the content directory.
+
+The content/template.txt file now has only the following content:
+
+    \{{> header}}
+
+    <div class="container mt-4">
+      <div class="row">
+        <div class="col-md-8">
+          <h2>\{{page.title}}</h2>
+          <div>
+            <p>\{{page.text}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    \{{> footer}}
+
+What we have gained from this, is that we can now reuse the header and footer in all templates. For example, the blog template.txt
+now becomes:
+
+    \{{> header}}
+
+    <div class="container my-4">
+      <div class="row">
+
+        <div class="col-md-8">
+
+          <h2>\{{page.title}}</h2>
+
+          <div>
+            <p>\{{page.text}}</p>
+          </div>
+
+          \{{#each page.children}}
+            <h4><a href="\{{url}}"}>\{{title}}</a></h4>
+          \{{/each}}
+
+        </div>
+
+      </div>
+    </div>
+
+    \{{> footer}}
+
+and similarly for the blog childtemplate.txt file.
+
+As you can see, changes to the header and footer can be done once, in the partials.txt file and will be in effect
+everywhere these partials (i.e., code snippets) are used, including each blog entry page.
+
+We are now starting to have a functional website. The styling can be much improved, for example, by using more
+of Bootstrap's styling options and components, such as
+<a href="https://getbootstrap.com/docs/4.0/components/list-group/" target="_blank">list groups</a>. Another addition
+would be the use of images and other files, which we will discuss in the next step.
+
+-----
+
+faq:

@@ -1,0 +1,19 @@
+edit: Bewerken
+----
+edit_different_language: Bewerk een vertaling van dit bestand
+----
+save: Opslaan
+----
+unsaved_changes: Er zijn nog niet opgeslagen bewerkingen
+----
+log_in_to_save: U moet aangemeld zijn om bewerkingen te kunnen opslaan
+----
+delete: Verwijderen
+----
+are_you_sure_delete: Weet u zeker dat u dit bestand wil verwijderen?
+----
+are_you_sure: Weet u het zeker?
+----
+home: Home
+----
+files: Bestanden

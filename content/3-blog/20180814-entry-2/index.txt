@@ -1,0 +1,79 @@
+Title: How to add third-party contributions?
+
+----
+
+Date: 14 August 2018
+
+----
+
+Image: image.jpg
+
+----
+
+Text:
+
+*Summary* To achieve this we must mainly make sure that we search for
+additional config.txt files in the vendor directory and concatenate these,
+make certain fields like javascript additive. Make sure that we can refer to a
+template as: Template: vendor/tester/blogpost, where 'tester' would be a
+vendor. Certainly other files, such as site.txt, must also be tracked and
+added from the vendor directory.
+
+### Reasoning
+
+Suppose, someone creates a theme or a component for CentiCMS. How can we
+mostly easily accommodate that? For example, we can easily skin the themes at
+https://startbootstrap.com/.
+
+For a complete website, we may simply substitute the content directory. This
+makes it very hard, however, to do future updates of the theme. A better way
+is to store a theme in the vendor folder (same level as content).
+
+We need to add a few changes to make this work:
+
+ - For several root files, we must scan *all* vendor directories and add the info in those files to the data object:
+
+   - partials.txt
+   - site.txt
+   - translation.txt
+
+   but:
+
+    - (page) templates should be available at vendor.name_of_vendor.content.name_of_template.template.txt, which is also the path
+    - config.txt will not be concatenated but can we somehow allow additional PHP to be included?
+
+ - This also means that certain predefined key fields must become additive (i.e., they are concatenated rather than substituted):
+
+    - JavaScript
+    - Helper
+    - Stylesheet
+    - Style
+
+   Unfortunately, these are all in the config.txt. This means, that we should
+   have optional config files for each vendor component and concatenate the
+   fields as above.
+
+ - Locally hosted assets such as .js and .css files. This means that we must
+   clear a path in the .htaccess to link to those, e.g., by allowing access to
+   the vendor folder. It is indeed possible to link to files
+   like {site}/vendor/tester/test.js, where tester is the name of the vendor and
+   test.js a host file.
+
+Let's consider some use-cases:
+
+### Vendor offering an additional component, say a slider
+
+This file will have additional css and js which can be put inside a single
+partials.txt or site.txt file. Or the partials file can be kept smallish and
+link to the local files. We may also include small bits of css in the
+vendor/tester/config.txt.
+
+### Vendor offering a complete, styled website with local styles etc.
+
+This would have a vendor folder and a content folder, where the latter is
+merely an example that must be overwritten. All template.txt files would be in
+the vendor folders and explicitly referred to in each index.txt file, like:
+
+    Template: vendor/tester/blogpost
+
+Where at that path there would be a template.txt file.

@@ -1,0 +1,83 @@
+{{> header}}
+
+    <!-- Page Content -->
+    <div class="container">
+
+      <div class="row">
+
+        <div class="col-md-8 pt-4 mb-4">
+
+          <h1 class="my-4">{{{page.title}}}</h1>
+
+          <div>
+            {{{markdown page.text}}}
+          </div>
+        </div>
+
+        <!-- Sidebar Widgets Column -->
+        <div class="col-md-4">
+
+
+          <div class="card my-4"> <!-- Side Widget -->
+            <h5 class="card-header">Many themes are included. Check them out!</h5>
+            <div class="card-body">
+
+              <a class="btn btn-outline-primary btn-sm btn-pill" href="{{{page.url}}}/?standardsitetheme=shards">Shards UI Toolkit</a>
+
+              <hr /><b>From <a href="https://bootswatch.com/" target="_blank">Bootswatch</a>:</b>
+              <a class="mb-1 btn btn-outline-primary btn-sm btn-pill" href="{{{page.url}}}/?standardsitetheme=default">Default (Bootstrap)</a>
+              <a class="mb-1 btn btn-outline-primary btn-sm btn-pill" href="{{{page.url}}}/?standardsitetheme=cerulean">Cerulean</a>
+              <a class="mb-1 btn btn-outline-primary btn-sm btn-pill" href="{{{page.url}}}/?standardsitetheme=cosmo">Cosmo</a>
+              <a class="mb-1 btn btn-outline-primary btn-sm btn-pill" href="{{{page.url}}}/?standardsitetheme=cyborg">Cyborg</a>
+              <a class="mb-1 btn btn-outline-primary btn-sm btn-pill" href="{{{page.url}}}/?standardsitetheme=darkly">Darkly</a>
+              <a class="mb-1 btn btn-outline-primary btn-sm btn-pill" href="{{{page.url}}}/?standardsitetheme=flatly">Flatly</a>
+              <a class="mb-1 btn btn-outline-primary btn-sm btn-pill" href="{{{page.url}}}/?standardsitetheme=journal">Journal</a>
+              <a class="mb-1 btn btn-outline-primary btn-sm btn-pill" href="{{{page.url}}}/?standardsitetheme=litera">Litera</a>
+              <a class="mb-1 btn btn-outline-primary btn-sm btn-pill" href="{{{page.url}}}/?standardsitetheme=lumen">Lumen</a>
+              <a class="mb-1 btn btn-outline-primary btn-sm btn-pill" href="{{{page.url}}}/?standardsitetheme=lux">Lux</a>
+              <a class="mb-1 btn btn-outline-primary btn-sm btn-pill" href="{{{page.url}}}/?standardsitetheme=materia">Materia</a>
+              <a class="mb-1 btn btn-outline-primary btn-sm btn-pill" href="{{{page.url}}}/?standardsitetheme=minty">Minty</a>
+              <a class="mb-1 btn btn-outline-primary btn-sm btn-pill" href="{{{page.url}}}/?standardsitetheme=pulse">Pulse</a>
+              <a class="mb-1 btn btn-outline-primary btn-sm btn-pill" href="{{{page.url}}}/?standardsitetheme=sandstone">Sandstone</a>
+              <a class="mb-1 btn btn-outline-primary btn-sm btn-pill" href="{{{page.url}}}/?standardsitetheme=simplex">Simplex</a>
+              <a class="mb-1 btn btn-outline-primary btn-sm btn-pill" href="{{{page.url}}}/?standardsitetheme=sketchy">Sketchy</a>
+              <a class="mb-1 btn btn-outline-primary btn-sm btn-pill" href="{{{page.url}}}/?standardsitetheme=slate">Slate</a>
+              <a class="mb-1 btn btn-outline-primary btn-sm btn-pill" href="{{{page.url}}}/?standardsitetheme=solar">Solar</a>
+              <a class="mb-1 btn btn-outline-primary btn-sm btn-pill" href="{{{page.url}}}/?standardsitetheme=spacelab">Spacelab</a>
+              <a class="mb-1 btn btn-outline-primary btn-sm btn-pill" href="{{{page.url}}}/?standardsitetheme=superhero">Superhero</a>
+              <a class="mb-1 btn btn-outline-primary btn-sm btn-pill" href="{{{page.url}}}/?standardsitetheme=united">United</a>
+              <a class="mb-1 btn btn-outline-primary btn-sm btn-pill" href="{{{page.url}}}/?standardsitetheme=yeti">Yeti</a>
+
+            </div>
+          </div>
+
+          {{#each page.files}} <!-- Show all images in their own card -->
+            <div class="card my-4">
+              <h5 class="card-header">{{{markdown caption.text}}}</h5>
+              <div class="card-body">
+                <img class="img-thumbnail" src="{{url}}" />
+              </div>
+            </div>
+          {{/each}}
+          
+          <div class="card my-4"> <!-- Side Widget -->
+            <h5 class="card-header">Icons are included by default</h5>
+            <div class="card-body">
+
+              <button class="btn btn-success btn-pill" onclick="alert('Nothing to download yet...');">
+                  <i class="fa fa-download mr-2"></i>
+                  Download
+              </button>
+
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+      <!-- /.row -->
+
+    </div>
+    <!-- /.container -->
+
+{{> footer}}

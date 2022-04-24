@@ -1,0 +1,48 @@
+{{> header}}
+
+    <!-- Page Content -->
+    <div class="container">
+
+      <div class="row">
+
+        <div class="offset-md-4 col-md-4 pt-4 my-4">
+
+          {{#if session.message}}<h4>{{{markdown (_ session.message) }}}</h4>{{/if}}
+
+          {{#unless session.username}}
+
+            <h1 class="my-4">{{_ 'register'}}</h1>
+
+            <div>
+
+              <form id="login" method="post" action="{{siteurl}}/vendor/centicms_user/register.php">
+                <div class="form-group">
+                  <label for="username">{{_ 'username' }}</label>
+                  <input class="form-control" id="username" name="username" type="text" 
+                      {{#if session.wrong_username}}value="{{session.wrong_username}}"{{/if}} >
+                </div>
+                <div class="form-group">
+                  <label for="password">{{_ 'password' }}</label>
+                  <input class="form-control" id="password" name="password" type="password">
+                </div>
+                  <input class="btn btn-primary" name="submit" type="submit" value= "{{_ 'register'}}">
+                  {{_ 'or' }} <a class="btn btn-secondary"  href='{{localizedsiteurl}}/login'>{{_ 'login'}}</a>
+              </form>
+
+            </div>
+
+          {{/unless}}
+
+        </div>
+
+        <div class="col-md-4">
+          {{> user_side_widget}}
+        </div>
+
+      </div>
+      <!-- /.row -->
+
+    </div>
+    <!-- /.container -->
+
+{{> footer}}

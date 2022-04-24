@@ -1,0 +1,1 @@
+footertext: Copyright &copy; Jaap Murre 2022 &mdash; <a style="color:white;" href="{{siteurl}}/legal">Disclaimer</a>

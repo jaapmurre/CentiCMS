@@ -1,0 +1,7 @@
+Title: {{{_ 'slogan'}}}
+
+----
+
+Text:
+
+<h3>Dit zou de Nederlandse vertaling van deze pagina moeten zijn</h3>

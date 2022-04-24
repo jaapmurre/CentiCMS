@@ -1,0 +1,87 @@
+Title: Rendering templates with Handlebars
+
+-----
+
+Text:
+
+You now have a site that is starting to look pretty professional. As a next step, we
+will move the content out of template and into its own file, called 'index.txt'. 
+Please, create an 'index.txt' file. This will result in the following structure of your
+files:
+
+    root/
+      index.php
+      content/
+        config.txt
+        index.txt
+        template.txt
+
+Open the 'index.txt' file for editing and add the following:
+
+    title: My site is awesome!
+
+&hyphen;&hyphen;&hyphen;&hyphen;
+
+    text: Interesting things will be discussed here...
+
+Here, we have two keywords *title* and *text* separated by four hyphens. CentiCMS splits an index.txt file 
+at these hyphen sequences (discarding them) and then searches for keywords, which is always the first
+word after a hyphen sequence or the very beginning of a file. A keyword **must** be followed by a colon.
+White space before a keyword is ignored and stripped.
+
+Note, that you can use as many keywords as you need; you are the one who gives them meaning by using them
+in the Handlebars templates.
+
+
+### Handlebars templates
+
+All keyword-value pairs in an index.txt file are stored by CentiCMS in a *page* variable, which is automatically transferred from
+the server to the browser. There, it is available to the <a href="https://handlebarsjs.com" target="_blank">Handlebars templating library</a>.
+
+The 'template.txt' file is automatically processed and any Handlebars code is converted. How does this work?
+Handlebars code typically starts and ends with two curly brackets. For example, \{{page.title}} will be replaced
+by My site is awesome! or by whatever you write after the title keyword. Let's try this in the template.txt file
+we defined earlier:
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <!-- Nav bar code not shown for brevity -->
+    </nav>
+
+    <div class="container mt-4">
+      <div class="row">
+        <div class="col-md-8">
+          <h2>\{{page.title}}</h2>
+          <div>
+            <p>\{{page.text}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+which will be rendered (i.e., shown) as:
+
+    <div class="container mt-4">
+      <div class="row">
+        <div class="col-md-8">
+          <h2>My site is awesome!</h2>
+          <div>
+            <p>Interesting things will be discussed here...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+So, we can now control the style of our website with the config.txt, setting a certain theme. We can
+determine the broad layout of our web pages with a template layout and we can put the actual content,
+like titles and texts, in a separate index.txt file. The advantages of this approach will become
+apparent soon if you have several childpages each of which have the same layout but different content,
+like blog pages.
+
+But I hear you think: What if I wanted to have headers in my text or lists and stuff, or words in italics?
+This is handled by Markdown.
+
+
+-----
+
+faq: 
+

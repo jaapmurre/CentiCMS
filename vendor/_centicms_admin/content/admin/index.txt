@@ -1,0 +1,10 @@
+Title: Edit Files
+
+----
+
+Text: 
+
+### Edit files
+
+*<small>N.B. If you do not see all your files listed below, make sure you add a file called 'vendortemplate_centicms_admin.txt'
+to the directory with a missing editable page. Use YAML to specify how to edit the page's keyword-value fields</small>*

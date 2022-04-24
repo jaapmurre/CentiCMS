@@ -1,0 +1,57 @@
+Title: Where to put files and how to link to them?
+
+----
+
+Date: 26 August 2018
+
+----
+
+Text:
+
+Right now, we put files like images and PDFs in the directory where we need them directly. These files, by being associated with the
+current page, are available to said page as *page.files*. A problem here is that we cannot put a bunch of files, say PDFs, in a directory
+and link to those from other pages. The reason is that currently a given page only indexes files in the same directory as the
+index.txt file and its subpages.
+
+Indexing many files does not really increase bandwidth that much, e.g., 1000 files with 100 char info is still only 0.1 MB. But reading the
+contents of 1000 caption files may start to take time at the server and push the download closer to 0.1 MB. But then again, this is the size
+of an average-quality image. If the server has no trouble with reading 1000 files in a short time (0.1 s?), there is no problem.
+
+Now, if you have, say, 1,000,000 files, this may be a huge problem for CentiCMS, not even so much because it may have to send over 100 MB in
+file info, but reading file info and caption.txt info may take quite some time. (Though we might consider caching.)
+
+
+## Solution 1
+
+We could add a naming convention that says that whenever we name a directory 'files', it is always indexed in the following
+circumstances:
+
+ - Its parent is the current page
+ - One of its parent's children (i.e. direct siblings) is the current page
+
+This is already almost the current situation (without the need for a 'files' directory), except that the parent's files are not indexed.
+We could add this to get_page_variables(<parent>,<minimal=True>).
+
+Solution 1 is useful when users access a part of the site with many pages that all rely on a common set of files, like images or PDFs some
+of which child pages may want to refer to, in various combinations.
+
+Solution 1 falls short if other pages, not among the child pages or root index.txt of that folder, want to refer to a file, like an About Us
+page.
+
+
+## Solution 2
+
+Like with a template, we can add a keyword 'files' with a comma-delimited list to the config.txt, which would be additive so that vendors can
+signal their own directory. File paths would have to be based on actual, local paths.
+
+
+## Solution 3
+
+We can add another keyword to the config: 'always_index_files: true', to do this, added to the sitemap.
+
+This is handy in case of files that are necessary in various parts of a site, like a PDF with legal text, logo image, etc.
+
+
+## Solution 4
+
+Like with 'template', an optional 'files' keyword in index.txt. This should probably the localpath without /content

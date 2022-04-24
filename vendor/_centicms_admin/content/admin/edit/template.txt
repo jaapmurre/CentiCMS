@@ -1,0 +1,270 @@
+{{> header}}
+
+    <div class="container">
+
+      <div class="row">
+
+        <div class="col-md-8 my-4">
+
+          {{#if session.username}} 
+
+            <div title="{{_ 'edit_different_language'}}" class="btn-group pull-right" role="group" aria-label="{{ 'file_language'}}">
+              {{#each languages}}
+                <button id="edit_language-{{this}}" type="button" class="btn btn-outline-success edit-language">{{this}}</button>
+              {{/each}}
+            </div>
+
+            <h3 class="">{{_ 'edit'}}: {{file_in_query.fullpath}} <span title="{{_ 'unsaved_changes'}}" id="dirty-star"></span></h3>
+
+            <form id="edit_form">
+
+              {{#each (getvendorfields file_in_query.fullpath 'centicms_admin') }} {{!-- TODO: Make this not crash with empty file --}}
+
+                {{#compare type '==' 'error'}}
+                  <div class="card bg-warning mb-3 text-white" style="max-width: 20rem;">
+                    <div class="card-header">{{label}}</div>
+                    <div class="card-body">
+                      <h4 class="card-title">{{{markdown title}}}</h4>
+                      <p class="card-text">{{{markdown text}}}</p>
+                    </div>
+                  </div>
+                {{/compare}}
+                
+                {{#compare type '==' 'info'}}
+                  {{{markdown text}}}
+                {{/compare}}
+                
+                {{#compare type '==' 'header'}}
+                  <h{{#if level}}{{level}}{{else}}3{{/if}}>{{{markdown text true}}}</h{{#if level}}{{level}}{{else}}3{{/if}}>
+                {{/compare}}
+                
+                {{#compare type '==' 'line'}}
+                  <hr class=""  id="{{field}}" />
+                {{/compare}}
+
+                {{#unless (contains type 'info, header, line, checkbox, error, hidden ') }}
+                  <label for="{{field}}">{{{markdown label true}}}</label>
+                {{/unless}}
+
+                {{#if help}}
+                  <small id="{{field}}Help" class="form-text text-muted pull-right">{{{markdown help}}}</small>
+                {{/if}}
+
+                <div class="form-group col-md-{{#if width}}{{width}}{{else}}12{{/if}}">
+
+                  {{#compare type '==' 'textarea'}}
+                    <textarea class="form-control field" name="{{field}}" id="{{field}}" aria-describedby="{{field}}Help" 
+                     style="width:100%;height:20em;">{{{lookupPropRef ../file_in_query this 'field' }}}</textarea>
+                  {{/compare}}
+
+                  {{#compare type '==' 'markdown'}}
+                    <textarea class="form-control field markdown" data-provide="markdown" name="{{field}}" id="{{field}}" aria-describedby="{{field}}Help" 
+                     style="width:100%;height:20em;">{{{lookupPropRef ../file_in_query this 'field' }}}</textarea>
+                  {{/compare}}
+
+                  {{#compare type '==' 'text'}}
+                    <input type="text" class="form-control field" name="{{field}}" id="{{field}}" aria-describedby="{{field}}Help"
+                     value="{{{lookupPropRef ../file_in_query this 'field' }}}" />
+                  {{/compare}}
+
+                  {{#compare type '==' 'hidden'}}
+                    <input type="hidden" name="{{field}}" id="{{field}}" value="{{{lookupPropRef ../file_in_query this 'field' }}}" />
+                  {{/compare}}
+
+                  {{#compare type '==' 'tags'}}
+                    <input type="text" class="form-control field tagsinput" data-role="tagsinput" name="{{field}}" id="{{field}}" aria-describedby="{{field}}Help"
+                     value="{{{lookupPropRef ../file_in_query this 'field' }}}" />
+                  {{/compare}}
+
+                  {{#compare type '==' 'date'}}
+                    <input class="form-control field datepicker"  width="276" name="{{field}}" id="{{field}}" aria-describedby="{{field}}Help"
+                     value="{{{lookupPropRef ../file_in_query this 'field' }}}" />
+                  {{/compare}}
+
+                  {{#compare type '==' 'time'}}
+                    <input class="form-control field timepicker"  width="276" name="{{field}}" id="{{field}}" aria-describedby="{{field}}Help"
+                     value="{{{lookupPropRef ../file_in_query this 'field' }}}" />
+                  {{/compare}}
+
+                  {{#compare type '==' 'datetime'}}
+                    <input class="form-control field datetimepicker"  width="276" name="{{field}}" id="{{field}}" aria-describedby="{{field}}Help"
+                     value="{{{lookupPropRef ../file_in_query this 'field' }}}" />
+                  {{/compare}}
+
+                  {{#compare type '==' 'checkbox'}}
+                    <div class="form-check">
+                      <input class="form-check-input field" type="checkbox"  name="{{field}}" id="{{field}}" aria-describedby="{{field}}Help"
+                        {{#compare 'true' '==' (lookupPropRef ../file_in_query this 'field') }}checked{{/compare}} value="{{@index}}"/>
+                       <label class="form-check-label" for="{{field}}">{{{markdown label 'inline'}}}</label>
+                    </div>
+                  {{/compare}}
+
+                  {{#compare type '==' 'radio'}}
+                    {{#each options}}
+                      <div class="form-check">
+                        <input class="form-check-input field" type="radio"  name="{{../field}}" id="{{../field}}{{@key}}" aria-describedby="{{../field}}{{@key}}Help"
+                          {{#compare @key '==' (lookupPropRef ../../file_in_query ../this 'field') }}checked{{/compare}} value="{{@key}}"/>
+                         <label class="form-check-label" for="{{../field}}{{@key}}">{{{markdown this 'inline'}}}</label>
+                      </div>
+                    {{/each}}
+                  {{/compare}}
+
+                  {{#compare type '==' 'select'}}
+                    <select class="form-control custom-select field" name="{{field}}" id="{{field}}" aria-describedby="{{field}}Help">
+                      <option>Choose a category</option>
+                      {{#each options }}
+                        <option {{#compare @key '==' (lookupPropRef ../../file_in_query ../this 'field' )}}selected{{/compare}} 
+                                value="{{@key}}">{{{markdown @this true}}}
+                        </option>
+                      {{/each}}                      
+                   </select>
+                  {{/compare}}
+
+                </div>
+
+              {{/each}}
+
+              <button id="edit_form_submit" type="submit" disabled="disabled" class="btn btn-primary mt-3">{{_ 'save'}}</button>
+              <button id="delete_button" class="btn btn-warning pull-right mt-3">{{_ 'delete'}}</button>
+
+            </form>
+
+            <script> // Enable the 'Save' button when edits have been made
+              $(document).ready(function() {
+
+                  var t = data.file_in_query['type'].split('.'),
+                      is_dirty = false,
+                      curlang = $.inArray(t[t.length-1],data.languages) < 0 ? data.defaultlanguage : t[t.length-1]; // Default is suppressed
+
+                  $('#edit_language-' + curlang).removeClass('btn-outline-success');
+                  $('#edit_language-' + curlang).addClass('btn-success');
+
+                  var has_started = false; // Prevent 'dirty' being triggered by startup code, like filling tag fields
+
+                  $('.field').on('change keyup paste',function() // Signal unsaved changes (document is 'dirty')
+                  {
+                      if (has_started) {
+                        $('#edit_form_submit').prop('disabled',false);
+                        $('#dirty-star').html("*");
+                        is_dirty = true;
+                      }
+                      has_started = true;
+                  });
+
+                  $(".markdown").markdown({autofocus:false,savable:false,iconlibrary:'fa'})
+                  $('.datepicker').datepicker({format: 'yyyy-mm-dd'}); // Using iso 8601, see http://support.sas.com/documentation/cdl/en/lrdict/64316/HTML/default/viewer.htm#a003169814.htm
+                  $('.timepicker').timepicker({format: 'H:M'}); 
+                  $('.datetimepicker').datetimepicker({format: 'yyyy-mm-dd H:M'}); 
+                  $('.tagsinput').tagsinput({tagClass: "badge badge-primary"}); // 'badge' makes it work with Bootstrap, else it does not work
+
+                  $('.edit-language').on('click',function() {
+                      if (is_dirty && !confirm("{{_ 'are_you_sure'}} {{_ 'unsaved_changes'}}")) { return; }
+                      var newlang = $(this).prop('id').split('-')[1],
+                          t = data.file_in_query['type'].split('.');
+                      if (newlang != curlang) {
+                          newlang = newlang === data.defaultlanguage ? "" : newlang; // Suppress default language
+                          if ($.inArray(t[t.length-1],data.languages) < 0) { // If current is default
+                            t.push(newlang);
+                          } else {
+                            t[t.length-1] = newlang;
+                          } 
+                          if (!newlang) { // If newlang is default language (= empty string by now), remove it
+                            t.pop();
+                          }
+                          window.location.href = (data.page.url + "?file=" + data.file_in_query.localpath + "/" + t.join(".") + ".txt");
+                      }
+                  });
+
+                  $('#delete_button').on('click',function() {
+                      if (!confirm("{{{_ 'are_you_sure_delete'}}}")) { return; }
+                      var post_url = "{{file_in_query.fullpath}}";
+                      $.post("{{siteurl}}/vendor/centicms_admin/processfile.php",{cmd: 'delete', fullpath: post_url})
+                          .done(function( msg ) {
+                          window.location.replace("{{localizedsiteurl}}/admin");
+                      }).fail(function( jqXHR, textStatus ) {
+                          console.log("Request failed: " + textStatus );
+                      });
+                  });
+
+                  $('#edit_form').on('submit',function(event) {
+                    event.preventDefault();
+                    var r = [];
+                    $(".field").each(function(){ // Convert all field values back to key:value pairs
+                        if ($(this).prop('type') == 'checkbox') {
+                          r.push($(this).attr('id') + ": " + ($(this).is(':checked') ? "true" : "false"));
+                        } else if ($(this).prop('type') == 'radio') {
+                          if ($(this).is(':checked')) {
+                            r.push($(this).attr('name') + ": " + $(this).val());
+                          }
+                        } else {
+                            r.push($(this).attr('id') + ": " + $(this).val());
+                        }
+                    });
+
+                    var s = r.join("\n----\n"),
+  //                      post_url = "{{file_in_query.localpath}}/{{file_in_query.type}}{{#compare selectedlanguage '==' defaultlanguage}}{{else}}.{{selectedlanguage}}{{/compare}}.txt";
+  //                      post_url = "{{file_in_query.localpath}}/{{file_in_query.type}}{{dot_language }}.txt";
+                        post_url = "{{file_in_query.localpath}}/{{file_in_query.type}}.txt";
+
+  //alert("post_url: " + post_url);
+
+                    $.post("{{siteurl}}/vendor/centicms_admin/processfile.php",{cmd: 'update', text: s, fullpath: post_url}
+                    ).done(function( msg ) {
+                      $('#edit_form_submit').prop('disabled',true);
+                      $('#dirty-star').html("");
+                      is_dirty = false;
+                    }).fail(function( jqXHR, textStatus ) {
+                      console.log("Request failed: " + textStatus );
+                    });
+
+                  });
+
+              });
+            </script>
+
+          {{else}}
+            <h5>Please, first <a href="{{siteurl}}/login">log in</a> to access files</h5>
+          {{/if}}
+
+        </div>
+
+        <!-- Sidebar Widgets Column -->
+        <div class="col-md-4">
+
+          {{> user_side_widget }}
+
+            <div class="card my-4">
+              <h5 class="card-header">{{_ 'files'}}</h5>
+              <div class="card-body">
+
+                {{#each file_in_query.files}} <!-- Show all images in their own card -->
+                  {{#compare type '==' 'image'}}
+                      <img class="img-thumbnail" src="{{url}}" /> <br />
+                      <small class="pull-right">{{{markdown caption.attribution}}}</small>
+                  {{/compare}}
+                      <a href="?file={{caption.fullpath}}" class="btn btn-outline-primary btn-sm">{{_ 'edit'}} {{name}}</a>
+                {{/each}}
+              </div>
+            </div>
+
+
+          {{!-- #each file_in_query.files}} <!-- Show all images in their own card -->
+            <div class="card my-4">
+              <h5 class="card-header">{{{markdown caption.title}}}</h5>
+              <div class="card-body">
+                <img class="img-thumbnail" src="{{url}}" /> <br />
+                <a href="?file={{caption.fullpath}}" class="btn btn-outline-primary btn-sm">{{_ 'edit'}}</a>
+                <small class="pull-right">{{{markdown caption.attribution}}}</small>
+              </div>
+            </div>
+          {{/each --}}
+          
+        </div>
+
+      </div>
+      <!-- /.row -->
+
+    </div>
+    <!-- /.container -->
+
+{{> footer}}

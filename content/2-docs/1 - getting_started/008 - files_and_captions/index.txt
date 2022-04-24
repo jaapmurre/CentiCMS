@@ -1,0 +1,98 @@
+Title: Files and captions
+
+-----
+
+Text:
+
+The most straightforward way to add images and other files is to put them in the same directory as the index.txt file.
+
+Suppose, I want to add a cool image to each blog entry. One way to accomplish this is to alter the childtemplate.txt
+and add an image called 'image.jpg' to the template. Let's also use a Bootstrap card for some extra styling of the blog
+entry, which will then look like this (not showing the side-bar):
+
+    <!-- Blog Entry Column -->
+    <div class="col-md-8">
+
+      <h2 class="my-5">\{{page.title}}</h2>
+
+      <div class="card mb-4">
+        \{{#each page.files}}
+          \{{#compare name '==' 'image.jpg'}}
+            <img class="card-img-top" src="\{{url}}" alt="\{{caption.title}}">
+            <small class="card-img-text text-right mr-3 mt-1">
+              <i>\{{caption.attribution}}</i>
+            </small>
+          \{{/compare}}
+        \{{/each}}
+        <div class="card-body">
+          <div class="card-text">
+            \{{{markdown page.text}}}
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+We are making use of the <a href="https://getbootstrap.com/docs/4.0/components/card/" target="_blank">Bootstrap Card Component</a>,
+used in the side-bar of blog entries as well. Additionally, we are showing an image and a 'caption.title' and 'caption.attribution'.
+Each file that is not a functional CentiCMS file like index.txt or template.txt (etc.), but for examples images, sound files,
+video files, PDFs, etc., can have an associated caption file that can hold arbitrary keyword-value pairs like an index.txt file.
+A caption file is defined by adding .txt after whatever the name is of the file you want to caption. For example, the name of the
+caption file for 'image.jpg' is 'image.jpg.txt', e.g.:
+
+    title: Image caption
+&hyphen;&hyphen;&hyphen;&hyphen;
+    attribution: Photo by X from Unsplash
+
+
+
+
+
+## Files
+
+If you want to show images or present other files (sounds, video, documents),
+you can add those in the folder where you want to use them. Files become
+available in the templates in the 'files' variable. Each file has a type,
+where the following file types are predefined
+
+ - **image**: jpg, jpeg, gif, png, tif, tiff, svg, bmp
+ - **document**: pdf, doc, docx, rtf, ppt, pptx, xls, xlsx, csv, md
+ - **video**: mov, mkv, avi, ogg, ogv, webm, flv, swf, mp4, mv4
+ - **audio**: mp3, m4a, wav, aiff, midi
+
+Each of the built-in types may be overriden in the config.txt file (see
+below). Additionally, you can define your types by adding it with the prefix
+'filetype_' to the config.txt file. For example, the add the new type 'math',
+you can write:
+
+    filetype_math: mat, spv, sav, r
+
+This type is now available and in the template you can write stuff like:
+
+    \{{#each files}}
+      \{{#compare type '==' 'math'}}
+          <a href="name">Download</a>
+      \{{/compare}}
+    \{{/each}}
+
+### Files may be localized
+
+Suppose, you have an image of a cartoon in English and a translated cartoon
+image in Dutch. If you call the images cartoon.jpg and cartoon.nl.jpg
+(assuming English as the default language), the Dutch cartoon image will
+automatically be served.
+
+### Caption files
+
+Like page index.txt files, each file may have an associated 'caption file',
+which must have the same name but the extension '.txt'. E.g., cartoon.jpg.txt
+or cartoon.jpg.nl.txt for the Dutch version (not cartoon.nl.jpg.txt, the
+language must come before '.txt');
+
+
+
+
+
+-----
+
+faq:

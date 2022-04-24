@@ -1,0 +1,1 @@
+Text: Onderschriften *en* bestanden kunnen zich automatisch aanpassen aan de geselecteerde taal

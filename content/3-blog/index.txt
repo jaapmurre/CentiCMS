@@ -1,0 +1,7 @@
+Title: Blog
+----
+Text:
+
+<h1 class="my-4">CentiCMS</h1>
+
+Blog written by Jaap

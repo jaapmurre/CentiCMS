@@ -1,0 +1,108 @@
+Title: Styling text with Markdown
+
+-----
+
+Text:
+
+<a href="https://en.wikipedia.org/wiki/Markdown" target="_blank">Markdown</a> is a popular way to add headers,
+lists, and other elements to your texts.
+
+Headers are added by starting a sentence with a #, like so:
+
+    # Header
+
+This will create a (big) level-1 header that looks like:
+
+# Header
+
+With two or more # characters you will get lower-level (smaller) headers, e.g.,
+
+    ### A level-3 header
+
+will look like:
+
+### A level-3 header
+
+    Any text that is written
+    without empty ('white') lines
+    between them will be considered
+    as a single paragraph and rendered
+    as flowing text.
+
+    After a white line, a new paragraph
+    starts. This looks like this when
+    rendered:
+
+Any text that is written
+without empty ('white') lines
+between them will be considered
+as a single paragraph and rendered
+as flowing text.
+
+After a white line, a new paragraph
+starts. This looks like this when
+rendered:
+
+
+Lists can be made with hyphens, much like you may improvise this in a plain text
+editor:
+
+     - List item 1
+     - List item 2
+     - List item 3
+
+and this will be rendered like:
+
+ - List item 1
+ - List item 2
+ - List item 3
+
+The exact manner in which headers, lists and other elements are styled will depend on
+the site theme you select.
+
+Other things you can do is make words \*italic\*, \*\*strong\*\*, or \_underlined\_,
+rendered like: *italic*, **strong**, or _underlined_.
+
+There are many <a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet" target="_blank">
+more things you do with Markdown</a>, including inserting links, images, and tables. CentiCMS also adds
+the capacity to use [mathematical formula in Markdown texts](../../selected_topics/mathematical_equations).
+
+### Activating Markdown in a template.txt
+
+By default, the texts you write in your index.txt files are not rendered as Markdown, you must make this
+explicit in the template. This is done as follows:
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <!-- Nav bar code not shown for brevity -->
+    </nav>
+
+    <div class="container mt-4">
+      <div class="row">
+        <div class="col-md-8">
+          <h2>\{{page.title}}</h2>
+          <div>
+            <p>\{{{markdown page.text}}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+Notice two differences: (1) We have added the markdown 'helper'. This helper is added by CentiCMS to
+Handlebars, giving it the capacity translate Markdown text to HTML code (using the
+<a href="https://marked.js.org" target="_blank">marked parser</a>). (2) We are now using triple curly
+braces, instead of double for the Markdown text. This is necessary because Handlebars removes all HTML tags
+by default, i.e., when using the double curly braces. This is a safety feature, but since we control our
+own text, it is unnecessary here. Tripling the braces ensures that the HTML is passed through,
+so that it can be rendered in the browser.
+
+If we now write:
+
+text: \*\*Very\*\* interesting will be discussed here...
+
+We will see Very appear as **Very**.
+
+Our site still has only one page. Let's add some pages.
+
+-----
+
+faq:

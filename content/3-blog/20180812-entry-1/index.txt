@@ -1,0 +1,60 @@
+Title: Why I made CentiCMS
+
+----
+
+Date: 12 August 2018
+
+----
+
+Image: image.jpg
+
+----
+
+Always_get_files: true
+
+----
+
+Text:
+
+As an intellectual challenge, I spent a week to make this mini flat-file CMS framework. (Then I spent another three weeks,
+to write the admin panel and user admin.)
+It is inspired by flat-file frameworks such as Kirby, which are PHP-based. Personally, I don't like to write PHP very much. I would
+much rather write the templates in a modern JavaScript-based template language like Handlebars.
+A possibility would be creating a flat-file CMS for NodeJS, but I have found that hosting for NodeJS
+is more complex to maintain and also a lot more expensive than PHP hosting. For now, PHP seems to remain the main
+server language that is supported on almost all low-cost hosting platforms.
+
+CentiCMS uses only a small, 'essential' amount of PHP to serve pages and send data that cannot be obtained with JavaScript,
+such as the structure of the file-system, which encodes the site's structure. It uses a directory-based site organization and
+the names of plain text pages and subpages have a special meaning.
+Templates pages specify the layout of the page in that directory or all child pages (e.g., blog entries).
+Page templates are specified in Handlebars templates that communicate with the JavaScript client-side, that is, in the browser.
+
+An objective of CentiCMS is to have a very small footprint. In fact, the smallest version is just a single index.php file, which
+contains a configurable page HTML head that serves as a starting point for your site, pulling in various libraries from CDNs. Then,
+there is PHP to walk the server's file system and JavaScript to help work with the templtes. The index.php file may be minified
+and compressed and is then about 13 kB. Except for files that define your content and layouts, no other files are necessary. You
+may want to add a brief .htaccess file if you want nice URLs (i.e., without 'index.php' in them).
+
+From the single index.php file, it is possible to incrementally build your website by creating a content folder and adding text pages.
+After templates have been added, a complete website can be created by entering plain text in Markdown format.
+
+The objective is to offer much important styling and functionality 'out-of-the-box', which is why it is preloaded with Bootstrap 4,
+Bootswatch Themes, Shards UI Toolkit, and both Fontawesome icons and Material icons. Also jQuery is preloaded,
+as well as the Handlebars JavaScript templating library with a few additional 'helpers'. Working with mathematical expressions
+is supported (with MathJax), YAML, and sophisticated data/time manipulations (with Moment JS). Most of this can be turned off
+if you don't want to use it; or you can replace it with other choices.
+
+CentiCMS is built as a multi-language CMS from the ground-up. If you switch languages in the menu, almost everything
+will switch with it, or it can if you want to. This even includes images (e.g., images of logos or diagrams with text) and templates,
+giving you a different layout depending on the language, which may be useful for Right-To-Left languages.
+
+In order to keep the footprint as small as possible, libraries are included through CDN links.
+
+A rudimentary admin panel with user registration and login is available as well as an optional add-on. With admin-level access,
+you can edit and manage pages.
+
+In general, care has been taken to allow third-party add-ons, called *vendor plugins*, to be added without having to touch anything
+in your content directory. Vendor plugins can be anything from a complete web shop to a translation of the admin panel in Dutch or just a
+handy snipped of Handlebars, Bootstrap, etc.. They can also easily be turned off by prefixing an underscore to their
+vendor directory.

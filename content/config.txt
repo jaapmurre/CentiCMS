@@ -1,0 +1,23 @@
+sitename: CentiCMS
+----
+sitetheme: cerulean
+----
+cache_sitemaps: true
+----
+mathjax: true
+----
+languages: en, nl
+----
+siteurl: https://centicms.com
+----
+javascript: <script>function text1() {};</script>
+----
+javascript:
+
+    <script>function text2() {};</script>
+    <!-- These javascript fields must be specified in full, including with script tags -->
+
+----
+extra_sitemap_fields: color
+----
+filetype_math: sav, spv, mat, r

@@ -1,0 +1,33 @@
+title: Title
+----
+username: Username
+----
+password: Password
+----
+register: Register
+----
+login: Login
+----
+logout: Logout
+----
+user: User
+----
+not_logged_in: Not logged in
+----
+logged_out_message: You are now logged out
+----
+not_logged_out_message: You are **not** yet logged out
+----
+you_are_already_logged_in: You are already logged in. Would you like to <a class='badge badge-primary badge-sm' href='../vendor/centicms_user/logout.php'>Log out</a> ?
+----
+username_not_recognized: The username '{{session.wrong_username}}' is not recognized. Please, <a class='badge badge-primary badge-sm' href='register'>Register</a> first.
+----
+username_already_taken: Someone else is already registered with username '{{session.wrong_username}}'
+----
+you_are_registered: You are successfully registered as '{{session.username}}' and already logged in
+----
+were_logged_out: You were already logged out
+----
+are_logged_out: You are now logged out
+----
+or: or

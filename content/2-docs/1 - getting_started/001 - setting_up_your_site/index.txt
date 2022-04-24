@@ -1,0 +1,109 @@
+Title: Setting up your site
+
+-----
+
+Text:
+
+### Folders (directories) and files
+
+CentiCMS is a 'flat-file' content-management system (CMS), which means it does not use a database. This makes installing it very
+easy. The very simplest install consists of a single file, namely the 'index.php' file, as follows:
+
+    root/
+      index.php
+
+where root/ is the root of your website, often called 'www' or 'public_html' in the file system of your Internet hosting provider,
+like SiteGround, Bluehost, or GoDaddy. The 'index.php' file contains all of the machinery to pull resources together and serve your site.
+
+Then again, since you don't have a site yet, it won't show anything but just 'Loading...'.
+
+To add contents you *must* include a content directory and place a file called 'template.txt' in it, like so:
+
+    root/
+      index.php
+      content/
+        template.txt
+
+(Only things placed inside the content directory will be processed.)
+
+Whatever you write in 'template.txt' will now appear as your root webpage. E.g., if you write 'Hello world!' as the only text
+in the 'template.txt' file, you will see that text appear, instead of 'Loading...'.
+
+
+### Bootstrap
+
+CentiCMS already has written the necessary code to allow a website to be shown for the beginning and ending of the page,
+where the text of template.txt will appear in the middle. The
+default framework to help you layout your website in CentiCMS is [Bootstrap](https://getbootstrap.com), which is already
+preloaded.
+
+Let's make a template that is a little more interesting. Replace 'Hello world!' with the following code:
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+
+      <div class="container">
+
+        <a class="navbar-brand" href="#">My Site</a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse"
+                data-target="#navbarCollapse" aria-controls="navbarCollapse"
+                aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">About Us</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Contact</a>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+
+    </nav>
+
+    <div class="container mt-4">
+      <div class="row">
+        <div class="col-md-8">
+          <h2>My site is awesome!</h2>
+          <div>
+            <p>Here, very interesting things will be discussed.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+If you now inspect your site, it will look much more professional. At the Bootstrap site there are
+more [getting-started examples](https://getbootstrap.com/docs/4.0/examples/), which you can copy and
+paste into your template. (Click right and select 'View Page Source' and remember that you only need
+to copy the code between the body tags. Sometimes, you will also need to copy a few styles in a so
+called .css stylesheet. We will cover this later in the documentation.)
+
+As yo can see, it is quite a lot of code, but then again it does a lot too. For example, try to make your webpage
+really narrow, like on a cell phone. At some point of 'narrowness', the menu disappears and is replaced
+by a three-bars icon that opens up a vertical menu if you click on it. This is Bootstrap at work.
+
+The code is written in HTML, the Hyper-Text Markup Language, with which you tell the browser what it
+should display on your web pages and what its role is (header, image, emphasis, table cell, etc.).
+Bootstrap adds quite a few additional elements and utilities, typically through classes, like
+`class="container"`.
+
+Once you have defined a template, you can use it for all your pages. How? The content, such as the page title,
+main text and images or other files, are kept separate from the template.
+
+-----
+
+faq:
+
+### FAQ
+
+#### It says Bootstrap is already preloaded, but I do not see the files anywhere. Where are they?
+
+All 'preloaded' files are loaded from free public repositories, so called CDNs.

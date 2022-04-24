@@ -1,0 +1,19 @@
+edit: Edit
+----
+edit_different_language: Edit a translation of this file
+----
+save: Save
+----
+unsaved_changes: There are unsaved changes
+----
+log_in_to_save: You must be logged in to be able to save edits
+----
+delete: Delete
+----
+are_you_sure_delete: Are you sure you want to delete this file?
+----
+are_you_sure: Are you sure?
+----
+home: Home
+----
+files: Files

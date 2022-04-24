@@ -1,0 +1,166 @@
+Title: Adding a blog section
+
+-----
+
+Text:
+
+Suppose, we would like to add a blog, how would we do this? We can simply add a 'blog' directory with a few
+entries to get started. The entries can be coded not with simple digits but a digit that codes for the date,
+so that they are auto-sorted by date of creation. For example:
+
+    root/
+      index.php
+      content/
+        config.txt
+        index.txt
+        template.txt
+        1-about/
+          index.txt
+        2-blog/
+          index.txt
+          template.txt
+          childtemplate.txt
+          20180801-entry-starting-my-blog/
+            index.txt
+          20180802-entry-more-about-this/
+            index.txt
+          20180801-entry-something-new/
+            index.txt
+        3-contact/
+          index.txt
+        disclaimer/
+          index.txt
+
+I have now added the blog section as '2-blog' because I want it to appear before 'Contact' in the site menu. Also,
+I have given the blog section its own template, because I want to show a listing of all entries. With each entry
+there is an index.txt which will contain the title and text. 
+
+The blog *template.txt* should contain a listing with a link of all entries. This is accomplished as follows:
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+
+      <div class="container">
+
+        <a class="navbar-brand" href="\{{siteurl}}">My Site</a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" 
+                data-target="#navbarCollapse" aria-controls="navbarCollapse" 
+                aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+          <ul class="navbar-nav mr-auto">
+            \{{#each sitemap.children}}
+              <li class="nav-item">
+                <a class="nav-link" href="{{url}}">\{{title}}</a>
+              </li>
+            \{{/each}}
+          </ul>
+        </div>
+
+      </div>
+
+    </nav>
+
+    <div class="container my-4">
+      <div class="row">
+
+        <div class="col-md-8">
+
+          <h2>\{{page.title}}</h2>
+
+          <div>
+            <p>\{{page.text}}</p>
+          </div>
+
+          \{{#each page.children}}
+            <h4><a href="\{{url}}"}>\{{title}}</a></h4>
+          \{{/each}}
+
+        </div>
+
+      </div>
+    </div>
+
+Whenever a page is being shown, there is a `page` object that holds among others an array of child pages, as
+`page.children`. Looping through these with `\{{#each }}` allows us to access properties such as 'url' and
+'title'. In this way, it is straightforward to show a list of child pages, in this case, all blog entries.
+
+But which template will the entries use? If no template is found in the same directory as the index.txt file,
+the content/template.txt one will be used. This would be fine here, but we want to add a side-bar that lists
+all blog entries. If the parent directory holds a file named 'childtemplate.txt' that one is used with higher
+priority that the content/template.txt (but lower priority than a template.txt in the same directory).
+In this way, we can set the layout for a whole collection of entries with a childtemplate.txt file.
+
+In this case, the *childtemplate.txt* file will be:
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+
+      <div class="container">
+
+        <a class="navbar-brand" href="\{{siteurl}}">My Site</a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" 
+                data-target="#navbarCollapse" aria-controls="navbarCollapse" 
+                aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+          <ul class="navbar-nav mr-auto">
+            \{{#each sitemap.children}}
+              <li class="nav-item">
+                <a class="nav-link" href="{{url}}">\{{title}}</a>
+              </li>
+            \{{/each}}
+          </ul>
+        </div>
+
+      </div>
+
+    </nav>
+
+    <div class="container my-4">
+
+      <div class="row">
+
+        <div class="col-md-8">
+          <h2>\{{page.title}}</h2>
+          <div>
+            <p>\{{page.text}}</p>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="card">
+            <div class="card-body">
+              \{{#each page.siblings}}
+                <h5><a href="\{{url}}"}>\{{title}}</a></h5>
+              \{{/each}}
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+Here we are adding a sidebar column using `class="col-md-4"` which is styling defined Bootstrap giving 4/12th space to the right
+of the area with title and text, which gets 8/12/th. Bootstrap works with a grid system of 12 columns and this is one way
+of using this grid. See the <a href="https://getbootstrap.com/docs/4.0/layout/grid/" target="_blank">Bootstrap grid documentation</a>
+for more details. In the sidebar, we style the sections as 'cards', using 
+<a href="https://getbootstrap.com/docs/4.0/components/card/" target="_blank">Bootstrap Card Components</a>. This gives a nice and
+functional layout.
+
+Also, we can no longer run through the children. We could access the parent page with `page.parent` but to save space, only the current
+`page` object contains children. A `page` does however also contain its *siblings* (which would its parents children anyway) because in most
+use cases this is what you want to access.
+
+Note that we kept duplicating the navigation bar code even though it stayed exactly the same. In the next step, we will discuss a method
+to remedy this.
+
+-----
+
+faq: 
+

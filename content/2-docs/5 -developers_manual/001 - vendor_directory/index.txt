@@ -1,0 +1,70 @@
+Title: Vendor Directory
+
+----
+
+Text:
+
+A new third-party plugin or add-on, called *vendor plugin* in CentiCMS, is always
+placed in the 'vendor' directory, which is at the same level as the 'content'
+directory:
+
+    content/
+    vendor/
+    index.php
+    .access
+
+Suppose, any new plugin **has** to placed in the vendor directory in its own
+subdirectory, e.g.,
+
+    content/
+    vendor/
+      myplugin/
+    index.php
+    .access
+
+This 'myplugin' directory can be viewed as the 'root' of the plugin. In it, you may
+place a content directory which will be searched an integrated with the rest of the
+website. That means that any files in the content directory will be found and its
+content processed and made available to the page and sitemap like the normal
+content directory. 
+
+One of the simplest types of vendor plugins is to provide a translation, for example,
+in a new language not previous available, e.g., Dutch (.nl):
+
+    content/
+    vendor/
+      myplugin_nl/
+        content/
+          translation.nl.txt
+    index.php
+    .access
+
+If the original content directory does not yet have this file, it is now available.
+
+Note, that if translation.nl.txt were placed directly in myplugin, it would not be found.
+But it is (therefore) a good place to put any PHP files that must do some processing on 
+the server.
+
+To add 'nl' to the available languages, we can add it with a config.txt file:
+
+    content/
+    vendor/
+      myplugin_nl/
+        content/
+          translation.nl.txt
+          config.txt
+    index.php
+    .access
+
+where 'config.txt' only has one line:
+
+    languages: nl
+
+The language field has the characteristic that any config.txt keyword-value pairs in vendor files
+will be added to it. Some other fields have this characteristic as well and this collection can 
+be extended with a config setting.
+
+
+
+
+

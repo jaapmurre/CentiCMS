@@ -1,0 +1,64 @@
+Title: Configuring your site
+
+-----
+
+Text:
+
+Part of the CentiCMS philosophy is to have batteries included, a lot of them in fact. In this case,
+we can see the effect of that by changing the colors, fonts, and shapes to conform to one of over
+twenty predefined 'site themes'. 
+
+In order to communicate to CentiCMS that you wish to select a specific theme, you must first create
+another file in the root, namely 'config.txt'. The root now looks like this:
+
+    root/
+      index.php
+      content/
+        template.txt
+        config.txt
+
+In the 'config.txt' file, you add a single line:
+
+    sitetheme: cerulean
+
+Now, if you check out your site, you will see the navigation bar is blue and all fonts have changed.
+By changing the name of the theme in the 'config.txt' file, you can quickly style your site. Later,
+you can then fine-tune the style or replace it with another one not already included.
+
+The theme could be one of the bootswatch themes (check them out at https://bootswatch.com ):
+
+ - default
+ - cerulean
+ - cosmo
+ - cyborg
+ - darkly
+ - flatly
+ - journal
+ - litera
+ - lumen
+ - lux
+ - materia
+ - minty
+ - pulse
+ - sandstone
+ - simplex
+ - sketchy
+ - slate
+ - solar
+ - spacelab
+ - superhero
+ - united
+ - yeti
+
+Another valid theme option is:
+
+ - shards
+
+which will use the Shards UI Toolkit to style your site (see https://designrevision.com/downloads/shards ).
+
+
+
+-----
+
+faq: 
+

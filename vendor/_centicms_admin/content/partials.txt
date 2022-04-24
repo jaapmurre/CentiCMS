@@ -1,0 +1,220 @@
+edit_index_pages: 
+
+  <ul class="list-group">
+    {{#each pages}}
+      {{#if vendors.centicms_admin }}
+        <li class="list-group-item">
+            <h5>
+              <a class="" href="{{../localizedsiteurl}}/admin/edit?file={{localpath}}/index{{dot_language }}.txt">{{{markdown title 'inline'}}}</a>
+              <a href="#" data-localpath="{{localpath}}" data-toggle="modal" data-target="settings-modal" class="add-button pull-right">
+                <i class="fa fa-plus ml-2 text-muted"></i></a> 
+              <a href="#" data-localpath="{{localpath}}" data-toggle="modal" data-target="settings-modal" class="settings-button pull-right">
+                <i class="fa fa-cog ml-2 text-muted"></i></a> 
+            </h5>
+            {{#if children}}
+              {{> edit_index_subpages localizedsiteurl=../localizedsiteurl }} {{!-- Pass localized siteurl into the context of the partial --}}
+            {{/if}}
+        </li>
+      {{/if}}
+    {{/each}}
+  </ul>
+
+----
+
+edit_index_subpages:
+
+  <ul class="list-group">
+    {{#each children}}
+      {{#if vendors.centicms_admin }}
+        <li class="list-group-item">
+            <h5>
+              <a class="" href="{{../localizedsiteurl}}/admin/edit?file={{localpath}}/index{{dot_language }}.txt">{{{markdown title 'inline'}}}</a>
+              <a href="#" data-localpath="{{localpath}}" data-toggle="modal" data-target="settings-modal" 
+                class="add-button pull-right"><i class="fa fa-plus ml-2 text-muted"></i></a> 
+              <a href="#" data-localpath="{{localpath}}" data-toggle="modal" data-target="settings-modal" 
+                class="settings-button pull-right"><i class="fa fa-cog ml-2 text-muted"></i></a> 
+            </h5>
+            {{#if children}}
+              {{> edit_index_subpages localizedsiteurl=../localizedsiteurl }}
+            {{/if}}
+        </li>
+      {{/if}}
+    {{/each}}
+  </ul>
+
+ ----
+
+settings_modal:
+
+<div class="modal fade" id="settings-modal" tabindex="-1" role="dialog" aria-labelledby="settingsModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="settingsModalLabel"><i class="fa fa-cog ml-2"></i> Settings</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <form id="settings_form">
+            <div class="form-group">
+
+            <label for="file_name">Name</label>
+            <input type="text" class="form-control field" name="file_name" id="file_name" value="" />
+
+            <label for="file_order">Order</label>
+            <input type="text" class="form-control field" name="file_order" id="file_order" value="" />
+
+            <div class="form-check mt-2">
+              <input class="form-check-input field" type="checkbox"  name="file_visible" id="file_visible" checked value=""/>
+               <label class="form-check-label" for="file_visible">Visible</label>
+            </div>
+
+            <div class="form-check mt-2">
+              <input class="form-check-input field" type="checkbox"  name="file_ignore" id="file_ignore" value=""/>
+               <label class="form-check-label" for="file_ignore">Ignore</label>
+            </div>
+
+          </div>
+        </form>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button id="save-settings-button" type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+////////// TODO: Refactor so that Add can use most of this too, but with old_name === undefined (hence new)
+
+////////// FAIL if Add wants to add an existing dir/file -> processfile.php
+
+  var localpath, oldname;
+
+  $('.settings-button').on('click', function () {
+    localpath = $(this).data("localpath");
+    var p = localpath.split("/");
+    p = p[p.length-1];
+    oldname = (' '+p).slice(1); // retains copy of old dir name
+    var ignore = p.charAt(0) === '_';
+    if (ignore) {
+      p = p.slice(1);
+    }
+    var digits = $.trim(p.split('-')[0]);
+    var isvisible = !isNaN(digits);
+    var filename = isvisible ? $.trim(p.split('-')[1]) : digits;
+
+    $("#file_name").val(filename);
+    $("#file_order").val(isvisible ? digits : "");
+    $("#file_visible").prop("checked",isvisible);
+    $("#file_ignore").prop("checked",ignore);
+
+    $('#settings-modal').modal();
+  });
+
+  $('#save-settings-button').on('click',function(event) {
+    event.preventDefault();
+
+    $.post("{{siteurl}}/vendor/centicms_admin/processfile.php",
+      {
+        cmd: 'settings', 
+        localpath: localpath,
+        oldname: oldname, 
+        file_name: $("#file_name").val(), 
+        file_order: $("#file_order").val(),
+        file_visible: $("#file_visible").prop("checked"),
+        file_ignore: $("#file_ignore").prop("checked")
+      }
+    ).done(function(msg) {
+      $('#settings-modal').modal('hide');
+      location.reload(); // Updates file references to changed file
+    }).fail(function( jqXHR, textStatus ) {
+      console.log("Request failed: " + textStatus );
+    });
+
+  });
+
+</script>
+
+----
+
+add_modal:
+
+<div class="modal fade" id="add-modal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addModalLabel">Add</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="settings_form">
+            <div class="form-group">
+
+            <label for="add_file_name">Name</label>
+            <input type="text" class="form-control field" name="add_file_name" id="add_file_name" value="" />
+
+            <label for="add_file_order">Order</label>
+            <input type="text" class="form-control field" name="add_file_order" id="add_file_order" value="" />
+
+            <div class="form-check mt-2">
+              <input class="form-check-input field" type="checkbox"  name="add_file_visible" id="add_file_visible" value=""/>
+               <label class="form-check-label" for="add_file_visible">Visible</label>
+            </div>
+
+            <div class="form-check mt-2">
+              <input class="form-check-input field" type="checkbox"  name="add_file_ignore" id="file_ignore" value=""/>
+               <label class="form-check-label" for="file_ignore">Ignore</label>
+            </div>
+
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button id="save-add-button" type="button" class="btn btn-primary">Add Page</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $('.add-button').on('click', function () {
+    localpath = $(this).data("localpath");
+    var p = localpath.split("/");
+    p = p[p.length-1];
+    oldname = (' '+p).slice(1); // retains copy of old dir name
+
+    $('#add-modal').modal();
+  });
+
+  $('#save-add-button').on('click',function(event) {
+    event.preventDefault();
+
+    $.post("{{siteurl}}/vendor/centicms_admin/processfile.php",
+      {
+        cmd: 'add', 
+        localpath: localpath,
+        parentname: oldname, 
+        file_name: $("#add_file_name").val(), 
+        file_order: $("#add_file_order").val(),
+        file_visible: !!$("#add_file_visible").prop("checked"),
+        file_ignore: !!$("#add_file_ignore").prop("checked")
+      }
+    ).done(function(msg) {
+      $('#add-modal').modal('hide');
+      location.reload(); // Updates file list to include added file
+    }).fail(function( jqXHR, textStatus ) {
+      console.log("Request failed: " + textStatus );
+    });
+
+  });
+
+</script>

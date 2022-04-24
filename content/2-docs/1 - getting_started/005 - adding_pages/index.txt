@@ -1,0 +1,255 @@
+Title: Adding pages
+
+-----
+
+Text:
+
+We are going to add three pages to the website: an About page, a Contact page, and a Disclaimer page. 
+Of course, feel free to add your own pages instead. This is just for practice. Create three new directories, 
+called '1-about', '2-contact', and 'disclaimer'. Place, one index.txt file in each of the three new with
+
+    title: About (or other relevant)
+
+&hyphen;&hyphen;&hyphen;&hyphen;
+
+    text: 
+
+        Text about me
+
+Notice that I am adding extra space to make the text clearer. This is not necessary but reads more easily.
+Spaces around both keywords and values like your texts are removed (i.e., before and after but not within).
+
+Your file structure will now look like this:
+
+    root/
+      index.php
+      content/
+        config.txt
+        index.txt
+        template.txt
+        1-about/
+          index.txt
+        2-contact/
+          index.txt
+        disclaimer/
+          index.txt
+
+
+Why did I write '1-about' but not '3-disclaimer'? Because if a directory starts with a digit, it is marked as
+*isvisible*. If it does not, we will have `isvisible === false`, i.e., the page is considered not visible. We
+can make use of this when writing the Handlebars code for the top level menu of our website. Any
+leading digits, hyphens, or spaces will be removed and the remainder will be used as part of the path to your
+page, e.g., example.com/about. The digits themselves serve to order the items in the menu. If you want 'about'
+to come last, it can be set to say '7-about'.
+
+
+### Removing index.php from the path
+
+But first, we must solve an annoying problem, at least I consider it annoying. If you go to your site and type
+in example.com/about (substitute your site's name for example.com), you will see an error message. To get around
+this you may type example.com/index.php/about. This workds, you now see the title and text you provided in the
+index.txt file. But it is an ugly URL! To remove it, add the following file to the root. Note that it *must*
+be called .access, oddly enough starting with a dot. Copy-and-paste the following to the .access file.
+
+    Options -Indexes
+    RewriteEngine On
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^.* index.php [L]
+
+Note, that this works only on Apache servers and a few other types. But most Internet hosting providers that offer
+PHP, also support .access files. What this file does, is to rewrite a request for a page, turning example.com/about
+into a request example.com/index.php/about. This is done by a so called rewrite engine, which we must first turn on.
+Also, if a file such as an image is found directly on the file system, it is served without rewriting. This is 
+ensured by include the line:
+
+    RewriteCond %{REQUEST_FILENAME} !-f
+
+Thus, if you add a picture of yourself called 'image.jpg' in the about directory, the path to 'image.jpg' will be:
+
+    example.com/1-about/image.jpg
+
+That is, the server will first check whether the file exists at that path. It does. Therefore, it stops the rewrite
+process and simply serves the file found. The same is true for directories.
+
+The very first line is optional; it says to not show a listing of the files in your directories to the outside
+world. This is a sensible safety precaution.
+
+
+### Setting up the navigation bar menu
+
+Now you have three brand new pages but they are not linked in the menu. We could handcraft the menu, as it is now, but
+instead we will make the menu automatically add new items as you add pages that start with an index. For this we must
+adjust the template. But wait! We don't have a template yet for our new pages. If a page does not have its own template,
+it will use the root template, so we are covered there.
+
+The navigation part of your template now looks like:
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+
+      <div class="container">
+
+        <a class="navbar-brand" href="#">My Site</a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" 
+                data-target="#navbarCollapse" aria-controls="navbarCollapse" 
+                aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">About Us</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Contact</a>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+
+    </nav>
+
+This generates the bar on top of the page. We now make a few changes, insert a bit of Handlebars code
+here and there (look for the double or triple curly braces):
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+
+      <div class="container">
+
+        <a class="navbar-brand" href="\{{siteurl}}">My Site</a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" 
+                data-target="#navbarCollapse" aria-controls="navbarCollapse" 
+                aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+          <ul class="navbar-nav mr-auto">
+            \{{#each sitemap.children}}
+              <li class="nav-item">
+                <a class="nav-link" href="{{url}}">\{{title}}</a>
+              </li>
+            \{{/each}}
+          </ul>
+        </div>
+
+      </div>
+
+    </nav>
+
+    <div class="container mt-4">
+      <div class="row">
+        <div class="col-md-8">
+          <h2>\{{page.title}}</h2>
+          <div>
+            <p>\{{page.text}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+Note, that we inserted `\{{siteurl}}` for the 'navbar-brand' section of the navigation bar
+(<a href="https://getbootstrap.com/docs/4.0/components/navbar/#brand" target="_blank">see documentation
+for an explanation and additional options</a>). This generates the correct URL to website's home page. Because
+have it already, there is no need for an extra 'Home' entry in the navigation menu. Now, look at the following
+bit we inserted:
+
+      <ul class="navbar-nav mr-auto">
+        \{{#each sitemap.children}}
+          <li class="nav-item">
+            <a class="nav-link" href="{{url}}">\{{title}}</a>
+          </li>
+        \{{/each}}
+      </ul>
+
+Here, we are using one of <a href="https://handlebarsjs.com/block_helpers.html" target="_blank">
+Handlebar's so called Block Helpers</a>, namely `#each`. We are also using one of the predefined objects,
+namely `sitemap`. This holds a hierachy of all the website's pages with some essential information for each page, like
+its 'title' property and 'url'.
+
+The `#each` helper iterates through all children of the sitemap's top level, being the pages you just defined, and each
+iteration is invoked with the context of that page in the sitemap. This means that all information the sitemap contains
+for that page is available. This includes the url and title, which are accessed with the double curly brackets as in the
+earlier examples. Everything between `\{{#each}}` and `\{{/each}}` is repeated for each of the 'children' pages. This allows
+for a compact and general manner to generate the menu.
+
+But there is still one mistake in the menu: We did not want the 'disclaimer' item to be visible in the menu; how come we still
+see it? The reason is that we have to check for visibility with the 'isvisible' property also found in each sitemap's page. This
+can be done using another of Handlebar's Block Helpers, namely the `\{{#if}}` tag which takes only a single argument that can
+either be true or false, where the empty string is counted as false and a non-empty string as true (see so called 
+<a href="https://developer.mozilla.org/en-US/docs/Glossary/Truthy" target="_blank">truthy values in Javascript</a>). This gives
+us:
+
+      <ul class="navbar-nav mr-auto">
+        \{{#each sitemap.children}}
+          \{{#if isvisible}}
+            <li class="nav-item">
+              <a class="nav-link" href="{{url}}">{{title}}</a>
+            </li>
+          \{{/if}}
+        \{{/each}}
+      </ul>
+
+and now the 'Disclaimer' is not visible in the menu, even though it is still perfectly reachable via example.com/disclaimer.
+
+We can one more thing to improve our menu, namely to signal a menu item as 'active' if we are in that page. Thus, if we are
+on the 'About' page, 'About' should appear different, typically slightly brigher or bolder. The sitemap page property to use for 
+this is 'iscurrent', which is only true if this is the current page. We can code this as:
+
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+      <ul class="navbar-nav mr-auto">
+        \{{#each sitemap.children}}
+          \{{#if isvisible}}
+            \{{#if iscurrent}}
+              <li class="nav-item active">
+                <a class="nav-link" href="\{{url}}">\{{title}}</a>
+                  <span class="sr-only">(current)</span>
+              </li>
+            \{{else}}
+              <li class="nav-item">
+                <a class="nav-link" href="\{{url}}">\{{title}}</a>
+              </li>
+            \{{/if}}
+          \{{/if}}
+        \{{/each}}
+      </ul>
+    </div>
+
+We added the class 'active', which is predefined in Bootstrap for menu items. We also added an additional &lt;span&gt; tag with
+class "sr-only", which conveys to screen readers (hence "sr") that this is the current page.
+
+Once you become more familiar with Handlebars and with the CentiCMS `sitemap` and `page` objects, as well as several other
+handy objects, this will become much easier. Using the same approach as here will allow you to 'skin' also completely new templates
+obtained from elsewhere (free or commercial).
+
+
+
+
+
+-----
+
+faq: 
+
+### Are `sitemap`, `page`, and other objects also available in index.txt and other pages?
+
+Yes, almost all pages support use of Markdown and Handlebars. There will be plenty of examples of this.
+
+
+### How can I inspect which variables are available to each page?
+
+Open the Console window and look for the 'data' object. The contents of this object is directly available to
+the web page you are on.
+
+
+### How can I find the Console window?
+
+Click right and in the Context Menu select 'Inspect Element'. A new window opens with background information of the current
+web page. Now look for the Console tab.
+

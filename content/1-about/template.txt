@@ -1,0 +1,8 @@
+{{> header}}
+
+<div class="container pt-4">
+  <h1>{{{page.title}}} (this page uses its own, different template)</h1>
+  {{{markdown page.text}}}
+</div>
+
+{{> footer}}

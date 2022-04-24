@@ -1,0 +1,18 @@
+Title: Using CentiCMS for academic publications
+
+----
+
+Text:
+
+CentiCMS is well suited for academic applications. We cover 
+the following in particular:
+
+<ul class="list-group">
+{{#each page.children}}
+  <li class="list-group-item">
+    {{#if isvisible}}
+      <a href='{{url}}'>{{title}}</a>
+    {{/if}}
+  </li>
+{{/each}}
+</ul>

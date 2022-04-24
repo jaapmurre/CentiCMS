@@ -1,0 +1,23 @@
+Title: Make data.sitemap a real root
+
+----
+
+Date: 27 August 2018
+
+----
+
+Text: 
+
+At the moment, we have data.pages to access the sitemap, but there are two problems with this:
+
+ 1. The top-level pages are called 'pages' and the lower-level pages are called 'children'. It seems better to use a consistent
+    naming convention here, either 'pages' or 'children' throughout. It seems that 'children' is more consistent with other uses
+    of 'child' (e.g., childtemplate) and we will use this then.
+
+ 2. A page has properties, one of which may be 'children'. Currently the data.sitemap only consists of children (called 'pages' now).
+    This is not logical. We must remedy this and 
+
+     - Remove data.pages and 
+     - Move it to sitemap.children (replacing pages there)
+     - Add the same properties to sitemap root as all pages in the sitemap have (url, path, ...)
+

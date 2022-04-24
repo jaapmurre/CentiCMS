@@ -1,0 +1,123 @@
+header:
+
+<script>
+  document.title = "{{_ 'slogan'}}"; // You can insert Javascript scripts in partials
+</script>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+<!-- Try different themes with one of the following settings -->
+<!-- nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top" -->
+<!-- nav class="navbar navbar-expand-lg navbar-light bg-secondary fixed-top" -->
+<!-- nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top" -->
+  <div class="container">
+
+    <a class="navbar-brand" href="{{siteurl}}">{{{_ 'slogan' }}}</a>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+
+        <ul id="navigation-items" class="navbar-nav ml-auto">
+          {{#each pages}}
+            {{#if isvisible}}
+              {{#if iscurrent}}
+                <li class="nav-item active">
+                  <a class="nav-link" href="{{url}}">{{title}}</a>
+                    <span class="sr-only">(current)</span>
+                </li>
+              {{else}}
+                <li class="nav-item">
+                  <a class="nav-link" href="{{url}}">{{title}}</a>
+                </li>
+              {{/if}}
+            {{/if}}
+          {{/each}}
+        </ul>      
+
+        <ul id="navigation-languages" class="navbar-nav ml-auto">
+          {{#each languages}} 
+            <li class="nav-item {{#compare this '==' ../selectedlanguage}}active{{/compare}}">
+              <a class="nav-link" href="{{#if (lookupProp ../page.translated_page_in_sitemap this 'url')}}{{lookupProp ../page.translated_page_in_sitemap this 'url'}}{{else}}{{../page.url}}{{/if}}{{query}}">{{this}}</a>
+            </li>
+          {{/each}}
+        </ul>      
+
+        {{> user_navbar_widget}}
+
+    </div>
+
+  </div>      
+
+</nav>
+{{> breadcrumb}}
+
+----
+
+breadcrumb:
+
+<nav aria-label="breadcrumb" style="margin-bottom:1rem;">
+  <ol class="breadcrumb" style="padding:0;margin:0;">
+    <div class="container">
+      <ol class="breadcrumb" style="padding-bottom:0;">
+        {{#each (getbreadcrumb)}}
+          {{#if @last }}
+            <li class="breadcrumb-item active"  aria-current="page">{{{markdown title 'inline'}}}</li>
+          {{else}}
+            <li class="breadcrumb-item"><a href="{{url}}">{{{markdown title 'inline'}}}</a></li>
+          {{/if}}
+        {{/each}}
+      </ol>
+    </div>
+  </ol>
+</nav>
+
+-----
+
+theme_explorer:
+
+<div class="card my-4"> <!-- Side Widget -->
+  <h5 class="card-header">Theme Explorer</h5>
+  <div class="card-body">
+
+    <a class="btn btn-outline-primary btn-sm btn-pill" href="{{{page.url}}}/?standardsitetheme=shards">Shards UI Toolkit</a>
+
+    <hr /><b>From <a href="https://bootswatch.com/" target="_blank">Bootswatch</a>:</b>
+    <a class="mb-1 btn btn-outline-primary btn-sm btn-pill" href="{{{page.url}}}/?standardsitetheme=default">Default (Bootstrap)</a>
+    <a class="mb-1 btn btn-outline-primary btn-sm btn-pill" href="{{{page.url}}}/?standardsitetheme=cerulean">Cerulean</a>
+    <a class="mb-1 btn btn-outline-primary btn-sm btn-pill" href="{{{page.url}}}/?standardsitetheme=cosmo">Cosmo</a>
+    <a class="mb-1 btn btn-outline-primary btn-sm btn-pill" href="{{{page.url}}}/?standardsitetheme=cyborg">Cyborg</a>
+    <a class="mb-1 btn btn-outline-primary btn-sm btn-pill" href="{{{page.url}}}/?standardsitetheme=darkly">Darkly</a>
+    <a class="mb-1 btn btn-outline-primary btn-sm btn-pill" href="{{{page.url}}}/?standardsitetheme=flatly">Flatly</a>
+    <a class="mb-1 btn btn-outline-primary btn-sm btn-pill" href="{{{page.url}}}/?standardsitetheme=journal">Journal</a>
+    <a class="mb-1 btn btn-outline-primary btn-sm btn-pill" href="{{{page.url}}}/?standardsitetheme=litera">Litera</a>
+    <a class="mb-1 btn btn-outline-primary btn-sm btn-pill" href="{{{page.url}}}/?standardsitetheme=lumen">Lumen</a>
+    <a class="mb-1 btn btn-outline-primary btn-sm btn-pill" href="{{{page.url}}}/?standardsitetheme=lux">Lux</a>
+    <a class="mb-1 btn btn-outline-primary btn-sm btn-pill" href="{{{page.url}}}/?standardsitetheme=materia">Materia</a>
+    <a class="mb-1 btn btn-outline-primary btn-sm btn-pill" href="{{{page.url}}}/?standardsitetheme=minty">Minty</a>
+    <a class="mb-1 btn btn-outline-primary btn-sm btn-pill" href="{{{page.url}}}/?standardsitetheme=pulse">Pulse</a>
+    <a class="mb-1 btn btn-outline-primary btn-sm btn-pill" href="{{{page.url}}}/?standardsitetheme=sandstone">Sandstone</a>
+    <a class="mb-1 btn btn-outline-primary btn-sm btn-pill" href="{{{page.url}}}/?standardsitetheme=simplex">Simplex</a>
+    <a class="mb-1 btn btn-outline-primary btn-sm btn-pill" href="{{{page.url}}}/?standardsitetheme=sketchy">Sketchy</a>
+    <a class="mb-1 btn btn-outline-primary btn-sm btn-pill" href="{{{page.url}}}/?standardsitetheme=slate">Slate</a>
+    <a class="mb-1 btn btn-outline-primary btn-sm btn-pill" href="{{{page.url}}}/?standardsitetheme=solar">Solar</a>
+    <a class="mb-1 btn btn-outline-primary btn-sm btn-pill" href="{{{page.url}}}/?standardsitetheme=spacelab">Spacelab</a>
+    <a class="mb-1 btn btn-outline-primary btn-sm btn-pill" href="{{{page.url}}}/?standardsitetheme=superhero">Superhero</a>
+    <a class="mb-1 btn btn-outline-primary btn-sm btn-pill" href="{{{page.url}}}/?standardsitetheme=united">United</a>
+    <a class="mb-1 btn btn-outline-primary btn-sm btn-pill" href="{{{page.url}}}/?standardsitetheme=yeti">Yeti</a>
+
+  </div>
+</div>
+
+
+
+-----
+
+footer:
+
+<footer class="py-5 bg-dark">
+  <div class="container">
+    <div class="m-0 text-center text-white">{{{markdown site.footertext}}}</div>
+  </div>
+</footer>

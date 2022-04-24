@@ -1,0 +1,22 @@
+Title: Getting started
+
+----
+
+Text:
+
+## Getting started
+
+Starting completely from scratch is not necessary because the standard Download of
+CentiCMS includes a fully functioning, multi-lingual site. It is, however, instructive
+to read along to see how to build-up a complete website starting from a single 
+'index.php' file.
+
+<ul class="list-group">
+{{#each page.children}}
+  <li class="list-group-item">
+    {{#if isvisible}}
+      <a href='{{url}}'>{{title}}</a>
+    {{/if}}
+  </li>
+{{/each}}
+</ul>

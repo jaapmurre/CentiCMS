@@ -1,0 +1,43 @@
+{{> header}}
+
+<!-- Page Content -->
+<div class="container">
+
+  <div class="row">
+
+    <!-- Blog Entries Column -->
+    <div class="col-md-8">
+
+      <h1 class="my-5">CentiCMS Blog
+        <small>Why I made this and what is going on right now.</small>
+      </h1>
+
+      {{#each page.children}} <!-- Blog Posts -->
+      <div class="card mb-4">
+        {{#each files}}
+          {{#compare name '==' 'image.jpg'}}
+            <a href="{{../url}}"><img class="card-img-top" src="{{url}}" alt="{{caption.title}}"></a>
+            <small class="card-img-text text-right mr-3 mt-1">{{caption.attribution}}</small>
+          {{/compare}}
+        {{/each}}
+        <div class="card-body">
+          <h2 class="card-title"><a href="{{url}}">{{title}}</a></h2>
+          <div class="card-text">
+            {{{markdown (truncate text 500) }}}
+          </div>
+          <a href="{{url}}" class="btn btn-primary">Read More &rarr;</a>
+        </div>
+        <div class="card-footer text-muted">
+          Posted on {{date}} by Jaap Murre
+        </div>
+      </div>
+      {{/each}}
+
+    </div>
+
+
+  </div>
+
+</div>
+
+{{> footer}}

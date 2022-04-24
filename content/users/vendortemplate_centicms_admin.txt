@@ -1,0 +1,8 @@
+fields:
+
+user:
+
+  -
+      field: screen_name
+      type: text
+      label: Screen Name 

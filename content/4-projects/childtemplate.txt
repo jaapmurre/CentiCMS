@@ -1,0 +1,41 @@
+{{> header}}
+
+  <!-- Page Content -->
+  <div class="container">
+
+    <div class="row mb-4">
+
+      <div class="col-md-8">
+
+        <h1 class="my-4">{{page.title}}</h1>
+
+        <div>
+          {{{markdown page.text}}}
+        </div>
+      </div>
+
+      <!-- Sidebar Widgets Column -->
+      <div class="col-md-4">
+
+        <div class="card my-4">
+          <h5 class="card-header">Show projects by tag</h5>
+          <div class="card-body">
+            {{#each (getsetfrompages page.siblings 'tags') }}
+              {{#if (contains this ../page.tags) }}
+                <a href="{{../siteurl}}/projects?tag={{this}}" title="Tag for this project" class="badge badge-primary">{{this}}</a>
+              {{else}}
+                <a href="{{url}}?tag={{this}}" title="Tag for other projects" class="badge badge-secondary">{{this}}</a>
+              {{/if}}
+            {{/each}}
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+    <!-- /.row -->
+
+  </div>
+  <!-- /.container -->
+
+{{> footer}}

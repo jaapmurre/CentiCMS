@@ -1,0 +1,7 @@
+Title: Jantje Project
+----
+Segment: jantje_project
+----
+Tags: memory, connectionism
+----
+Text: Dit is het Jantje Project!

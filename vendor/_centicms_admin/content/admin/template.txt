@@ -1,0 +1,15 @@
+{{> header}}
+<div class="container">
+  <div class="row my-4">
+    <div class="col-md-8 pt-4">
+      {{{markdown page.text}}}
+      {{> edit_index_pages }} <script>$('.collapse').collapse()</script>
+    </div>
+    <div class="col-md-4">
+      {{> user_side_widget }}
+    </div>
+  </div>
+</div>
+{{> settings_modal }}
+{{> add_modal }}
+{{> footer}}

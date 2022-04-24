@@ -1,0 +1,138 @@
+Title: Working with tags
+
+-----
+
+Text:
+
+If you are an active and varied blogger, you may want to add tags to each
+index.txt page to indicate the topic. Or if you have a 'Projects' or 'Products' section,
+you can guide the user faster to relevant pages if you add tags. The easiest way
+to do this is to add a 'tags' field, e.g., below the title, so you will have
+
+    title: Hiking in the Scottish Highlands
+
+\-\-\-\-
+
+
+    tags: nature, hiking, rain
+
+\-\-\-\-
+
+    text: Last week, I went to ...
+
+The 'tags' list is a simple comma-delimited list; you may but need not include spaces before or after words. 
+Spaces within keywords are allowed: nature, hiking, shoe shopping, bad weather
+
+<div class="card pull-right bg-light w-50 m-2" style="font-size:90%;">
+<div class="card-header"><i class="fa fa-hand-o-right fa-lg mr-2" aria-hidden="true"></i> Other keyword names than 'tags'</div>
+<div class="card-body">
+You are not limited to the keyword 'tags', but if you use a different one, say 'topics', 
+you must register this field in the site's config.txt, as follows:
+
+    extra_sitemap_fields: topics
+
+To limit bandwith, the sitemap includes only a few properties for each page, 
+including 'tags'. By registering 'extra sitemap fields', this ensures that the sitemap will also contain 
+these fields for all pages. 
+</div>
+</div>
+
+So, how can we use the tags? There are two sides to this: 1. Showing all tags that are available so the user
+can click on one to limit the selection. 2. Showing a list that includes only the entries (projects, products, ...)
+that contain a tag in their 'tags' field that has been selected. So, if you click on the 'nature' tag, you want
+to see a list with all entries that have 'nature' somewhere in their tags list.
+
+#### Displaying all tags
+
+To display all tags we use a special helper that takes any array of pages, in this case the current page's children,
+and then collects all comma-delimited terms for a specific field, in this case 'tags'. Duplicates are removed, so that
+only unique tags remain:
+
+    \{{#each (getsetfrompages page.children 'tags') }}
+      <a href="\{{../siteurl}}/projects?tag=\{{this}}" class="badge badge-primary">\{{this}}</a>
+    \{{/each}}
+
+This will run through each of the tags, as collected from the child pages. Each is shown in a Bootstrap 4 'badge' in
+the primary color (e.g., light blue). The badge acts as a link which points to the projects page on which this list
+of tag 'badges' is shown but adding a so called query parameter. These are of the form ?a=b&c=d, where the question mark
+signals that the start of the query and the keyword=value pairs are separated by ampersands. 
+
+The URL plus query may be something like: example.com/projects?tag=nature. Now, the second part is to show only those
+child pages which 'tags' field contains 'nature'. We accomplish this by using Handlebars:
+
+    <ul class="list-group">
+      \{{#each page.children}}
+        \{{#if (getquery 'tag') }} <!-- if 'tag' is in URL query, filter on tags -->
+          \{{#if (contains (getquery 'tag') tags) }}
+            \{{#if isvisible}}
+              <li class="list-group-item">
+                <a class="font-weight-bold" href='\{{path}}'>\{{title}}</a>
+              </li>
+            \{{/if}}
+          \{{/if}}
+        \{{else}} <!-- if 'tag' is not in the URL query, show all visible child pages -->
+          \{{#if isvisible}}
+            <li class="list-group-item">
+             <a class="font-weight-bold" href='\{{path}}'>\{{title}}</a>
+            </li>
+          \{{/if}}
+        \{{/if}}
+      \{{/each}}
+    </ul>
+
+A list-group is a Bootstrap 4 version of a list. We run through each of the children in the current page. 
+Then, we check with the Handlebars helper 'getquery' (provided by CentiCMS) whether a query keyword tag is present.
+The getquery helper returns the value of the keyword (here 'tag') or "" if the keyword is not present.
+If there is a value for 'tag' (e.g., 'nature'), we use the 'contains' helper (provided by CentiCMS) to 
+verify whether for the current page its 'tags' field contains that value (e.g., 'nature').
+
+The contains helper takes a 'needle' (search term, here 'nature') and returns true if it is found in the 'haystack',
+which is a comma-delimited list of terms, e.g.: hiking, nature, rain. Then, if the page is indeed visible, we display
+it as a link to its page.
+
+Now, we have 'filtered' the list of all child pages and show only the ones which 'tags' field shows the value of 
+keyword 'tag' in the query string, provided the page is indeed visible (i.e., its directory has has a digit prefix).
+
+We can put the listing of all tags in a sidebar, which we can make more functional by highlighting the current tag
+by giving it a different color. For this we compare the tag with the tag in the query:
+
+    \{{#each (getsetfrompages page.children 'tags') }}
+        \{{#compare this '==' (getquery 'tag') }}
+          <a href="\{{../siteurl}}/projects?tag=\{{this}}" title="Tag for entries shown" 
+             class="badge badge-primary">\{{this}}</a>
+        \{{else}}
+          <a href="\{{url}}?tag=\{{this}}" title="Tag for other entries" 
+             class="badge badge-secondary">\{{this}}</a>
+        \{{/compare}}
+    \{{/each}}
+
+What if we also want to show a tag listing in the entry page itself? In that case, we can repeat the above code and
+replace `page.children` with `page.siblings`:
+
+    \{{#each (getsetfrompages page.sibling 'tags') }}
+          <a href="\{{../siteurl}}/projects?tag=\{{this}}" class="badge badge-primary">\{{this}}</a>
+    \{{/each}}
+
+We can make this more informative by showing all tags of the current page in a highlighted color:
+
+    \{{#each (getsetfrompages page.siblings 'tags') }}
+      \{{#if (contains this ../page.tags) }}
+        <a href="\{{../siteurl}}/projects?tag=\{{this}}" title="Tag for this entry" 
+           class="badge badge-primary">\{{this}}</a>
+      \{{else}}
+        <a href="\{{url}}?tag=\{{this}}" title="Tag for other entries" 
+           class="badge badge-secondary">\{{this}}</a>
+      \{{/if}}
+    \{{/each}}
+
+In the code above you make have noticed that inside a `\{{#each}}` loop we use '../siteurl' and '../page'.
+The reason for this is that when cycling (looping) through the child pages, the `\{{#each}` helper activates
+the context of the current child page. So, you are as if it where 'inside' that child page. And this page
+does not have a 'page' property. You must go to the parent to access this, which is accomplished with the 
+'..' syntax.
+
+
+-----
+
+faq: 
+

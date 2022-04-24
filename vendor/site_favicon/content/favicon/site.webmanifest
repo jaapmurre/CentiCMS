@@ -1,0 +1,20 @@
+{
+	"start_url": "./",
+    "name": "",
+    "short_name": "",
+    "icons": [
+        {
+            "src": "/centicms.com/public_html/site_favicon/content/favicon/android-chrome-192x192.png?v=kP3vp6Ppe0",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/centicms.com/public_html/vendor/site_favicon/content/favicon/android-chrome-384x384.png?v=kP3vp6Ppe0",
+            "sizes": "384x384",
+            "type": "image/png"
+        }
+    ],
+    "theme_color": "#ffffff",
+    "background_color": "#ffffff",
+    "display": "standalone"
+}

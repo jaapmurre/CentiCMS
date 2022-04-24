@@ -1,0 +1,9 @@
+Title: Disclaimer
+
+----
+
+Text:
+
+### Here should be a disclaimer text.
+
+Notice that this page is not included in the top menu, but can be referred to, e.g., in the footer. That's because the directory (folder) of this page does not have leading numbers (not 0-disclaimer, say, but just disclaimer).

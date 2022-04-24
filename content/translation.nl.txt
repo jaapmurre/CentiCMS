@@ -1,0 +1,9 @@
+slogan: CentiCMS: 1% omvang, ongelofelijke kracht
+----
+dutch: Nederlands
+----
+english: Engels
+----
+content: Inhoud
+----
+home: Home

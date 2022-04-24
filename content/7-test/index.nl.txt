@@ -1,0 +1,16 @@
+title: Jantje
+----
+text: Hallo wereld!
+
+Jantje is helemaal terug!
+
+<h5>Posted: {{moment 'fromNow' '2018-09-05 16:00'}}</h5>
+
+<h5>Nu: {{moment 'format' '' 'LLLL'}}</h5>
+
+Met 'format' '' krijg je de huidige tijd. 'LLLL' geeft de volledig uitgeschreven datum. Zie 
+http://momentjs.com/docs/#/displaying/ .
+
+<h5>Hoeveel jaar geleden: {{moment 'fromNow' '2012-09-03'}} </h5>
+
+<h5>Hoeveel jaar geleden: {{moment 'fromNow' '2012-09-03' 'true'}} </h5>

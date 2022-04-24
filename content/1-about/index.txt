@@ -1,0 +1,7 @@
+Title: About
+----
+Text:
+
+I have been programming in different languages since I was a student, starting with APL around 1983.
+For my work at the University of Amsterdam, where I am a professor, I still like to write
+my own code, for example, for neural network simulations.

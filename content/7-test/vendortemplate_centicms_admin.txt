@@ -1,0 +1,120 @@
+fields:
+
+image:
+
+  -   
+      warning: It is essential here that image starts in column 0 as leading spaces will be stripped and than index would have a different indent
+
+      field: title
+      label: Title (a *text* field)
+      type: text
+      width: 12
+
+  -
+      field: attribution
+      label: Attribution
+      type: text
+
+  -
+      field: timestamp
+      label: Date and Time Taken (a *datetime* field)
+      type: datetime
+
+document:
+
+  -
+      field: title
+      label: {{_ 'title'}}
+      type: text
+
+index:
+
+  -
+      field: instruction
+      type: info
+      text: |
+          ## Instruction
+
+          This is an *info* field.
+
+          In general, a page like this is formed with field specs from a *vendortemplate* in the directory of the
+          page being edited. Vendortemplates and childvendortemplates follow the same rules of how they are found
+          as page templates. This means that one root vendortemplate can serve all similar subpages. In pages that
+          are different, a special vendortemplate can be provided. 
+
+          Vendortemplates are also language sensitive, like templates.
+          In practice, it may be more parsimonious to relay on translation.txt files: labels and text fields allow
+          Handlebars code (and Markdown) including the '_ i18n' helper.
+      
+          Also notice that this admin/edit page not only responds to language by default (if translations are provided),
+          but also to the site theme.
+
+          Here we will show some instruction in Markdown, where the syntax above indicates a 'literal block' in YAML.
+          Note that you cannot use four dashes to indicate a horizontal rule,
+          as this will split the field. Use the *line* type instead for that.
+
+          Apart from the limitation above, you can put many things in an *info* field, including global variables,
+          like {{siteurl}} and, say, images: ![Cats rule!](http://placekitten.com/50/50 "Kittens!") .
+
+          Also, \\( {\sqrt{\alpha} \over \gamma} = \sum \beta_i \\) and other mathematical symbols and markup are available.
+  -   
+      field: title
+      label: Title (a *text* field)
+      type: text
+      width: 12
+  -
+      field: properties
+      type: header
+      text: Properties (this is a 'h4' *header* of level 4 [3 is default])
+      level: 4
+  -   
+      field: is_sticky
+      label: Is Sticky (a *checkbox* field)
+      type: checkbox
+  -   
+      field: archived
+      label: Archived (another *checkbox* field)
+      type: checkbox
+  -   
+      field: line1
+      type: line
+  -  
+      field: text
+      label: Text (a *markdown* field)
+      type: markdown
+      width: 12
+      height: 10
+      help: Use **Level 2** as largest header for nicest results
+  -   
+      field: last_edited
+      label: Last Edited (a *date* field)
+      type: date
+      width: 12
+  -
+      field: category
+      label: Category (a *select* field)
+      type: select
+      options:
+        modelling: Modelling
+        experiment: Experiment
+        theory: Theory
+        comment: Comment
+        review: Review
+  -
+      field: topic
+      label: Topic (a *radio* field)
+      type: radio
+      options:
+        learning: Learning
+        forgetting: Forgetting
+        amnesia: Amnesia
+        consolidation: Consolidation
+        rehabilitation: Rehabilitation from Brain Damage
+  -
+      field: interests
+      label: Interests (a *tags* field)
+      type: tags
+
+----
+
+date_created: 28 August 2018

@@ -1,0 +1,126 @@
+Title: Documentation
+
+----
+
+Tags: home, overview
+
+----
+
+Text:
+
+<ul class="list-group pull-right" style="width:20rem;margin-left:2rem;">
+{{#each page.children}}
+  <li class="list-group-item">
+    {{#if isvisible}}
+      <a href='{{url}}'>{{title}}</a>
+    {{/if}}
+  </li>
+{{/each}}
+</ul>
+
+## [Getting started]({{page.url}}/getting_started)
+
+Follow along with steps in [Getting Started]({{page.url}}/getting_started):
+
+<ul class="list-group mb-4">
+  {{#each (getinsitemap page.children.0.localpath 'children')}}
+    <li class="list-group-item"><a href="{{url}}">{{math @index '+' 1}}. {{title}}</a></li>
+  {{/each}}
+</ul>
+
+
+## [Reference Manual]({{page.url}}/reference_manual)
+
+To get a detailed insight into all possible options, check out the [Reference Manual]({{page.url}}/reference_manual):
+
+<ul class="list-group mb-4">
+  {{#each (getinsitemap page.children.1.localpath 'children')}}
+    <li class="list-group-item"><a href="{{url}}">{{title}}</a></li>
+  {{/each}}
+</ul>
+
+
+## [Selected topics]({{page.url}}/selected_topics)
+
+In this section, we highlight some specific topics that may be of interest:
+
+<ul class="list-group mb-4">
+  {{#each (getinsitemap page.children.2.localpath 'children')}}
+    <li class="list-group-item"><a href="{{url}}">{{title}}</a></li>
+  {{/each}}
+</ul>
+
+TODO: The following are topics to be covered eventually:
+ - [Setting-up and using the admin panel]()
+ - [Adding a new file type]()
+ - [Multi-lingual sites]()
+ - [Adding a favicon to your site]({{page.url}}/selected_topics/favicon)
+ - [Developing new vendor plugins]()
+
+
+## [Developers Manual]({{page.url}}/developers_manual)
+
+Gives details about how developers can create third-party add-ons for CentiCMS,
+which are called *vendor plugins*.
+
+
+## Setting up your site
+
+There is no database, as CentiCMS is a 'flat-file', meaning it does not use a database. This makes installing it very
+easy. The simplest install consists of the following:
+
+    root/
+      index.php
+
+where root/ is the root of your website, often called 'www' or 'public_html' at the site of your Internet hosting provider,
+like Bluehost or GoDaddy.
+
+## Templates
+
+CentiCMS uses Kirby's smart directory based organization of pages and subpages but  instead of putting page templates in
+a separate directory, they are put in the same one, always called 'template.txt'. If that file does not exist and the
+directory above has a file called 'childtemplate.txt', then that is used. This is helpful for collection pages like a
+blog overview page with blog entries, or a project collection page with project subpages, etc. If none of these is
+present, the default template (always called 'template.txt' as are all templates) in the 'content' root is used. A
+fourth possibility is to specify:
+
+     Template: about
+
+which tells the system to look for a template file in the about folder. If this is specified it overrides all other options.
+
+
+
+
+
+
+
+
+### site.txt
+
+Use of this file is completely optional and may include any variable you want.
+
+### partials.txt
+
+
+## Multi-lingual sites
+
+Each of the above files, except config.txt, can be localized by adding '.nl',
+where '.nl' (= Dutch) is one of the language defined in your config.txt:
+
+    languages: en, nl
+
+The first language, here 'en' (English), is the default language and it is
+used for files without a language code. So, we can have an index.nl.txt as a
+Dutch translation of an index.txt file (index.en.txt would also be allowed).
+But also template.txt, site.txt.
+
+This covers nearly all translation needs. Additionially, you may add files
+'translation.txt' and 'translation.nl.txt', one for each language, with
+entries as above, e.g., to store words that may be used in many parts of your
+site, such as:
+
+    slogan: CentiCMS: 1% grootte, ongelofelijke kracht
+
+You can refer to these as translation.slogan etc. or use the _ helper.
+
+    { {_ slogan}}

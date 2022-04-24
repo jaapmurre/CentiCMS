@@ -1,0 +1,9 @@
+Title: Disclaimer
+
+----
+
+Text:
+
+### Hier zou een disclaimer tekst in het Nederlands moeten zijn.
+
+Merk op dat deze pagina niet in het top menu voorkomt maar dat er wel naar gerefereerd kan worden, bijv. vanuit de footer. Dat komt omdat de folder van deze pagina niet begint met een getal (bijv. niet 0-disclaimer, ipv. disclaimer).

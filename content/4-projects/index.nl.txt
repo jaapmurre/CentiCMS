@@ -1,0 +1,9 @@
+Title: Projecten
+----
+Segment: projecten
+----
+Text: 
+
+<h1 class="my-4">Projecten</h1>
+
+Dit zijn de projecten waar ik de laatste tijd aan werk.
